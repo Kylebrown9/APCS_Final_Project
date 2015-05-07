@@ -17,6 +17,7 @@ public class Game implements Drawable {
 	Player p;
 	List<Entity> entities;
 	Image image;
+	Graphics g;
 	
 	public Game(Map map) {
 		map = new Map(500,500);
@@ -40,11 +41,12 @@ public class Game implements Drawable {
 	
 	@Override
 	public Image toImage() {
-		image = new BufferedImage(map.getWidth()*Map.RES,map.getHeight()*Map.RES,BufferedImage.TYPE_INT_ARGB);
-		image.getGraphics().drawImage(map.toImage(), 0, 0, null);
+//		image = ImageStuff.copyImage(map.toImage());
+		image = map.toImage();
+		g = image.getGraphics();
 		
 		for(int i=0; i<entities.size(); i++)
-			entities.get(i).drawOn(image);
+			entities.get(i).drawOn(g);
 		
 		return image;
 	}

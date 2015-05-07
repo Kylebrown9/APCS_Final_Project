@@ -6,6 +6,7 @@ import entitystuff.Player;
 import game.Map;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
@@ -45,13 +46,14 @@ public class Tester {
 		
 		Map m = new DefaultMap();
 		Image i = new BufferedImage(m.getWidth()*Map.RES,m.getHeight()*Map.RES,BufferedImage.TYPE_INT_ARGB);
-		i.getGraphics().drawImage(m.toImage(), 0, 0, null);
+		Graphics g = i.getGraphics();
+		g.drawImage(m.toImage(), 0, 0, null);
 		
 		Entity player = new Player(m,0,0);
-		i = player.drawOn(i);
+		player.drawOn(g);
 		
 		Entity player2 = new Player(m,50,10);
-		i = player2.drawOn(i);
+		player2.drawOn(g);
 		
 		p.setImage(i);
 	}

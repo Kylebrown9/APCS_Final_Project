@@ -39,16 +39,6 @@ public abstract class Entity {
 		}
 	}
 	
-	public Image drawOn(Image i) {
-//		i.getGraphics().drawImage(ImageStuff.getRotatedImage(image, rot), 0, 0, null);
-		Image newI = new BufferedImage(i.getWidth(null),i.getHeight(null),BufferedImage.TYPE_INT_ARGB);
-		Graphics g = newI.getGraphics();
-		
-		g.drawImage(i, 0, 0, null);
-		g.drawImage(image, x-m.xOff, x-m.yOff, null);
-		return newI;
-	}
-	
 	public void drawOn(Graphics g) {
 		g.drawImage(image, x-m.xOff, x-m.yOff, null);
 	}
