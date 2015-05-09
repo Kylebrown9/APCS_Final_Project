@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ public class Game implements Updatable {
 	BufferedImage image;
 	Graphics g;
 	
+	Dimension windowDim;
+	
 	public Game() {
 		map = new Dungeon(p);
 		p = new Player(map,120,120);
@@ -33,7 +36,7 @@ public class Game implements Updatable {
 	}
 	
 	public void input(int x, int y) {
-		p.setTargetRelative(x-250,y-250);
+		p.setTargetRelative(x-windowDim.width/2,y-windowDim.height/2);
 		
 		update();
 	}
@@ -54,5 +57,8 @@ public class Game implements Updatable {
 		for(int i=0; i<entities.size(); i++)
 			entities.get(i).update(interval);
 	}
-
+	
+	public void setDim(Dimension dim) {
+		windowDim = dim;
+	}
 }

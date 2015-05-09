@@ -54,7 +54,7 @@ public class Tester {
 		PicturePanel p = getPicturePanel("MovementTest");
 		Game g = new Game();
 		
-		LightImage i = LightImage.newLightImage();
+		LightImage i = new LightImage(new Dimension(500,500));
 		
 		g.drawOn(i);
 		
@@ -81,7 +81,7 @@ public class Tester {
 		PicturePanel p = getPicturePanel("GameTest");
 		Game g = new Game();
 		
-		LightImage i = LightImage.newLightImage();
+		LightImage i = new LightImage(new Dimension(500,500));
 		
 		g.drawOn(i);
 		
@@ -93,16 +93,16 @@ public class Tester {
 		PicturePanel p = getPicturePanel("LightImageTest");
 		
 		Map m = new DefaultMap();
-		LightImage l = LightImage.newLightImage();
-		m.drawOn(l);
+		LightImage i = new LightImage(new Dimension(500,500));
+		m.drawOn(i);
 		
 		Entity player = new Player(m,0,0);
-		player.drawOn(l);
+		player.drawOn(i);
 		
 		Entity player2 = new Player(m,50,10);
-		player2.drawOn(l);
+		player2.drawOn(i);
 		
-		p.setImage(l.getImage());
+		p.setImage(i.getImage());
 	}
 	
 	//This tests layering two entities on top of a map using the graphics system

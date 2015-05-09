@@ -5,6 +5,8 @@ import game.LightImage;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -16,18 +18,19 @@ import javax.swing.JPanel;
 import updaters.PausableUpdater;
 import updaters.Updatable;
 
-public class Viewer extends JPanel implements MouseListener, Updatable {
+public class Viewer extends JPanel implements MouseListener, ComponentListener, Updatable {
 
 	private static final long serialVersionUID = 1L;
 
 	public static void main(String[] args) {
-		Viewer v = new Viewer();
+		Dimension dim = new Dimension(800,800);
+		
+		Viewer v = new Viewer(dim);
 	    v.setVisible(true);  
 	    
 	    JFrame jF = new JFrame("Dungeon Crawler");
 	    jF.add(v);
 	    
-		Dimension dim = new Dimension(500,500);
 		jF.setMaximumSize(dim);
 		jF.setMinimumSize(dim);
 		jF.setPreferredSize(dim);
@@ -37,32 +40,42 @@ public class Viewer extends JPanel implements MouseListener, Updatable {
 	    jF.pack();
 	    
 	    jF.addMouseListener(v);
+	    jF.addComponentListener(v);
 	}
 
+	Dimension dim;
+	
 	List<Layer> layers;
 	Game g;
+	
+	PauseButtonLayer pauseLayer;
 
-	public Viewer() {
-	   layers = new ArrayList<Layer>();
-	   g = new Game();
+	public Viewer(Dimension dim) {
+		this.dim = dim;
+		
+		layers = new ArrayList<Layer>();
+		g = new Game();
 	   
-	   PausableUpdater p = new PausableUpdater(g,this);
+		PausableUpdater p = new PausableUpdater(g,this);
 	   
-	   PauseButtonLayer pauseLayer = new PauseButtonLayer(p);
-	   GameLayer gameLayer = new GameLayer(g);
+		pauseLayer = new PauseButtonLayer(p);
+		GameLayer gameLayer = new GameLayer(g);
 	   
-	   layers.add(pauseLayer);
-	   layers.add(gameLayer);
+		pauseLayer.setDim(dim);
+		g.setDim(dim);
+		
+		layers.add(pauseLayer);
+		layers.add(gameLayer);
 	}
 	   
 	public void paintComponent(Graphics g) {
-	   LightImage lI = LightImage.newLightImage();
+	   LightImage lI = new LightImage(dim);
 	   
 	   for(int i= layers.size()-1; i>=0; i--)
-	      if(layers.get(i).active)
-	         layers.get(i).drawOn(lI);
+		   if(layers.get(i).active)
+	    	  layers.get(i).drawOn(lI);
 	   
-	   g.drawImage(lI.getImage(),0,0,null);
+	   	g.drawImage(lI.getImage(),0,0,null);
 	}
 
 	@Override
@@ -78,6 +91,20 @@ public class Viewer extends JPanel implements MouseListener, Updatable {
 	}
 
 	@Override
+	public void componentResized(ComponentEvent e) {
+		dim = getSize();
+		
+		pauseLayer.setDim(dim);
+		g.setDim(dim);
+	}
+	
+	@Override
+	public void update() {
+		repaint();
+	}
+	
+	
+	@Override
 	public void mouseReleased(MouseEvent arg0) {}
 	@Override
 	public void mouseEntered(MouseEvent arg0) {}
@@ -87,7 +114,9 @@ public class Viewer extends JPanel implements MouseListener, Updatable {
 	public void mouseClicked(MouseEvent e) {}
 
 	@Override
-	public void update() {
-		repaint();
-	}
+	public void componentHidden(ComponentEvent arg0) {}
+	@Override
+	public void componentMoved(ComponentEvent e) {}
+	@Override
+	public void componentShown(ComponentEvent e) {}
 }

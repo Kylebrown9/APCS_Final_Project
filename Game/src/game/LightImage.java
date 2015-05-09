@@ -1,32 +1,24 @@
 package game;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
-import java.awt.image.WritableRaster;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 public class LightImage {
 	private BufferedImage image;
-	public WritableRaster raster;
 	private int[] pixelsI;
 	public int width, height;
 	
 //	public static final int TRANSPARENT=16711900;	//the int code for R:255 G:0 B:220, pink
 	public static final int TRANSPARENT=16777215;
 	
-	public static LightImage newLightImage() {
-		BufferedImage image = null;
+	public LightImage(Dimension dim) {
+		width = dim.width;
+		height = dim.height;
 		
-		try {
-			image = ImageIO.read(LightImage.class.getClass().getResource("/Resources/canvas.jpg"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return new LightImage(image);
+		image = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+		pixelsI = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 	}
 	
 	public LightImage(BufferedImage i) {
@@ -40,8 +32,7 @@ public class LightImage {
 		g.dispose();
 		g = null;
 		
-		raster = image.getRaster();
-		pixelsI = ((DataBufferInt) raster.getDataBuffer()).getData();
+		pixelsI = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 	}
 
 	
@@ -52,7 +43,7 @@ public class LightImage {
 			for	(int y=0; 	(y<height) && (y+yS < i.height);	y++){
 				color = this.getColor(x, y);
 				if(y+yS >= 0 && x+xS >= 0)
-//					if(color != LightImage.TRANSPARENT)
+					if(color != LightImage.TRANSPARENT)
 						i.setColor(x+xS,y+yS,color);
 			}
 					

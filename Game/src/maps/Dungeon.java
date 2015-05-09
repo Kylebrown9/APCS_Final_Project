@@ -13,7 +13,7 @@ public class Dungeon extends Map {
 		setRect(1,0,0,20,20);
 		
 		addRect(2,new Rectangle(2,2,5,5));
-		addRect(2,new Rectangle(3,5,3,5));
+		addRect(2,new Rectangle(4,5,1,5));
 		addRect(2,new Rectangle(2,8,5,5));
 		addRect(2,new Rectangle(5,9,5,3));
 		addRect(2,new Rectangle(8,8,5,5));
