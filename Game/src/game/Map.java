@@ -13,12 +13,15 @@ import javax.imageio.ImageIO;
 
 import entitystuff.Entity;
 
-public class Map implements Drawable {
+public class Map {
 	public static final int RES = 25;
 	
 	protected int[][] map;
 	private int width, height;
-	private Image[] tiles;
+	
+	private BufferedImage[] tiles;
+	private LightImage[] lightTiles;
+	
 	protected List<Rectangle> boundaries;
 	public int xOff=0, yOff=0;
 	
@@ -29,52 +32,63 @@ public class Map implements Drawable {
 		this.height = height;
 		
 		map = new int[width][height];
-		
-		String[] paths = {
-				"grass0B.png",
-				"stone2B.png",
-				"stone2B.png",
-				"wood1B.png",
-				"carpet0B.jpg",
-				"step0B.jpg"
-		};
-		
-		tiles = new Image[paths.length];
-		
 		boundaries = new ArrayList<Rectangle>();
 		
-		for(int i=0; i<paths.length; i++) {
+		//***************************************************************
+		String[] pathsJPG = {
+				"grass0BJPG.jpg",
+				"stone1BJPG.jpg",
+				"stone2BJPG.jpg",
+				"wood1BJPG.jpg",
+				"carpet0BJPG.jpg",
+				"step0BJPG.jpg"
+		};
+		
+		tiles = new BufferedImage[pathsJPG.length];
+		lightTiles = new LightImage[tiles.length];
+		
+		for(int i=0; i<pathsJPG.length; i++) {
 			try {
-//				return ImageIO.read(getClass().getResource("/Resources/" + path));
-				tiles[i] = ImageIO.read(this.getClass().getResource("/Resources/" + paths[i]));
+				tiles[i] = ImageIO.read(this.getClass().getResource("/Resources/" + pathsJPG[i]));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
+			lightTiles[i] = new LightImage(tiles[i]);
 		}
-		
+	}
+	
+	public void addRect(int type, Rectangle r) {
+		setRect(type,r.x,r.y,r.width,r.height);
+		boundaries.add(new Rectangle(r.x*RES,r.y*RES,r.width*RES,r.height*RES));
 	}
 	
 	public void setRect(int type, int x, int y, int width, int height) {
 		for(int i=x; i<x+width; i++)
 			for(int j=y; j<y+height; j++)
-				if(i > 0 && i < this.width && j > 0 && j < this.height)
+				if(i >= 0 && i < this.width && j >= 0 && j < this.height)
 					map[i][j] = type;
 	}
 	
-	public boolean inBounds(int x, int y) {
-		Point point = new Point(x,y);
+	public boolean inBounds(int x, int y, int width, int height) {
+		Point point1 = new Point(x-width/2,y-height/2);
+		Point point2 = new Point(x-width/2,y+height/2);
+		Point point3 = new Point(x+width/2,y-height/2);
+		Point point4 = new Point(x+width/2,y+height/2);
 		
 		for(int i=0; i<boundaries.size(); i++)
-			if(boundaries.get(i).contains(point))
+			if(boundaries.get(i).contains(point1) &&
+					boundaries.get(i).contains(point2) &&
+					boundaries.get(i).contains(point3) &&
+					boundaries.get(i).contains(point4))
 				return true;
 		
 		return false;
 	}
 
-	@Override
 	public Image toImage() {
 //		System.out.println(width*RES + "" + height*RES);
-		Image i = new BufferedImage(width*RES,height*RES,BufferedImage.TYPE_4BYTE_ABGR);
+		Image i = new BufferedImage(width*RES,height*RES,BufferedImage.TYPE_3BYTE_BGR);
 		Graphics g = i.getGraphics();
 		
 		for(int x=0; x<width; x++)
@@ -83,6 +97,13 @@ public class Map implements Drawable {
 		
 		return i;
 	}
+	
+	public void drawOn(LightImage i) {
+		for(int x=0; x<width; x++)
+			for(int y=0; y<height; y++)
+				lightTiles[map[x][y]].drawOn(i, x*RES+i.width/2-xOff, y*RES+i.height/2-yOff);
+	}
+
 	
 	public int getWidth() {return width;}
 	public int getHeight() {return height;}

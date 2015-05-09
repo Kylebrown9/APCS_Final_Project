@@ -1,21 +1,36 @@
 package entitystuff;
 
-import java.awt.Image;
+import game.LightImage;
+
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class SpriteSet {
-	BufferedImage image;
-	int res = 65;
+	LightImage image;
 	
-	public SpriteSet(BufferedImage i) {
-		image = i;
+	LightImage[][] sprites = new LightImage[21][10];
+	
+	int res = 64;
+	
+	public SpriteSet(String path) {
+		BufferedImage i = null;
+		
+		try {
+			i = ImageIO.read(this.getClass().getResource(path));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		image = new LightImage(i);
+		
+		for(int row=0; row<21; row++)
+			for(int col=0; col<10; col++)
+				sprites[row][col] = image.subImage(col*res, row*res, res, res);
 	}
 	
-	public Image getWalkingSprite(int dir, int step) {
-		return getSprite(dir+8,step);
-	}
-	
-	public Image getSprite(int row, int col) {
-		return image.getSubimage(col*(res-1), row*(res), res, res);
+	public LightImage getSprite(int row, int col) {
+		return sprites[row][col];
 	}
 }

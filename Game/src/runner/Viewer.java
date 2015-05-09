@@ -1,22 +1,22 @@
 package runner;
 
 import game.Game;
+import game.LightImage;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import maps.DefaultMap;
+import updaters.PausableUpdater;
+import updaters.Updatable;
 
-public class Viewer extends JPanel implements MouseListener {
+public class Viewer extends JPanel implements MouseListener, Updatable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,7 +24,7 @@ public class Viewer extends JPanel implements MouseListener {
 		Viewer v = new Viewer();
 	    v.setVisible(true);  
 	    
-	    JFrame jF = new JFrame();
+	    JFrame jF = new JFrame("Dungeon Crawler");
 	    jF.add(v);
 	    
 		Dimension dim = new Dimension(500,500);
@@ -37,15 +37,6 @@ public class Viewer extends JPanel implements MouseListener {
 	    jF.pack();
 	    
 	    jF.addMouseListener(v);
-	    
-//	    try {
-//			Thread.sleep(1000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	    
-//	    v.repaint();
 	}
 
 	List<Layer> layers;
@@ -53,34 +44,35 @@ public class Viewer extends JPanel implements MouseListener {
 
 	public Viewer() {
 	   layers = new ArrayList<Layer>();
-	   g = new Game(new DefaultMap());
-	   layers.add(new GameLayer(g));
+	   g = new Game();
+	   
+	   PausableUpdater p = new PausableUpdater(g,this);
+	   
+	   PauseButtonLayer pauseLayer = new PauseButtonLayer(p);
+	   GameLayer gameLayer = new GameLayer(g);
+	   
+	   layers.add(pauseLayer);
+	   layers.add(gameLayer);
 	}
 	   
 	public void paintComponent(Graphics g) {
-	   Image screen = new BufferedImage(500,500,BufferedImage.TYPE_INT_ARGB);
-	   Graphics gA = screen.getGraphics();
-
-//	   for(int i= layers.size()-1; i>0; i--) {
-//	      if(layers.get(i).active)
-//	         screen = layers.get(i).drawOn(screen);
-//	      }
-
-	   layers.get(0).drawOn(screen);
+	   LightImage lI = LightImage.newLightImage();
 	   
-	   g.drawImage(screen,0,0,null);
+	   for(int i= layers.size()-1; i>=0; i--)
+	      if(layers.get(i).active)
+	         layers.get(i).drawOn(lI);
+	   
+	   g.drawImage(lI.getImage(),0,0,null);
 	}
 
 	@Override
 	public void mousePressed(MouseEvent me) {
-//		for(int i=0; i<layers.size(); i++) {
-//			if(layers.get(i).inLayer(me.getX(), me.getY())) {
-//				layers.get(i).input(me.getX(), me.getY());
-//				return;
-//			}
-//		}
-
-		layers.get(0).input(me.getX(), me.getY());
+		for(int i=0; i<layers.size(); i++) {
+			if(layers.get(i).inLayer(me.getX(), me.getY())) {
+				layers.get(i).input(me.getX(), me.getY());
+				return;
+			}
+		}
 		
 		repaint();
 	}
@@ -93,4 +85,9 @@ public class Viewer extends JPanel implements MouseListener {
 	public void mouseExited(MouseEvent arg0) {}
 	@Override
 	public void mouseClicked(MouseEvent e) {}
+
+	@Override
+	public void update() {
+		repaint();
+	}
 }

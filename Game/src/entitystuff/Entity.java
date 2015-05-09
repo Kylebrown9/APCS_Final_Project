@@ -1,23 +1,28 @@
 package entitystuff;
 
+import game.LightImage;
 import game.Map;
 
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
+import java.awt.Point;
 
 public abstract class Entity {	
 	Map m;
-	private int x=0, y=0;//, rot;
-	protected double xMag=0, yMag=0;
-	private double speed = 10;
-	public Image image;
+	protected double x=0, y=0;//, rot;
+	protected Point pos;
 	
-	public Entity(Map m, Image image, int x, int y) {
+	protected double xMag=0, yMag=0;
+	private double speed = 1;
+	
+	public int width=0,height=0;
+	public LightImage image = null;
+	
+	public Entity(Map m, int x, int y) {
 		this.m = m;
-		this.image = image;
 		this.x = x;
 		this.y = y;
+		
+		pos = new Point(x,y);
 	}
 	
 	public void setMag(double xVel, double yVel) {
@@ -25,24 +30,35 @@ public abstract class Entity {
 		this.yMag = yVel;
 	}
 	
-	public void setTrajectory(double angle) {
-		this.xMag = Math.cos(angle);
-		this.yMag = Math.sin(angle);
-	}
-	
 	public void update(int time) {
-		int newX=x+(int)(time*xMag*speed), newY=y+(int)(time*yMag*speed);
+		double dTime = time;
+		double newX=x+(dTime*xMag*speed), newY=y+(dTime*yMag*speed);
 		
-		if(m.inBounds(newX,newY)) {
+		if(m.inBounds((int)newX,(int)newY,width,height)) {
 			x = newX;
 			y = newY;
+		} else if (m.inBounds(pos.x,(int)newY,width,height)) {
+			y = newY;
+		} else if (m.inBounds((int)newX,pos.y,width,height)) {
+			x = newX;
 		}
+		
+		pos.x = (int) x;
+		pos.y = (int) y;
 	}
 	
 	public void drawOn(Graphics g) {
-		g.drawImage(image, x-m.xOff, x-m.yOff, null);
+		g.drawImage(image.getImage(), pos.x-m.xOff, pos.y-m.yOff, null);
 	}
 	
-	public int getX() {return x;}
-	public int getY() {return y;}
+	public void drawOn(LightImage i) {
+		image.drawOn(i, pos.x-(image.width/2)+i.width-m.xOff, pos.y-(image.height/2)+i.height-m.yOff);
+	}
+	
+	public int getX() {return pos.x;}
+	public int getY() {return pos.y;}
+	
+	public Point getPos() {
+		return pos;
+	}
 }

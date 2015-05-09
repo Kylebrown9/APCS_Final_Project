@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 public class ImageStuff {
 	public static Image getRotatedImage(Image i, int angle)
 	{
-		Image newImage = new BufferedImage(i.getWidth(null),i.getHeight(null),BufferedImage.TYPE_INT_ARGB);
+		Image newImage = new BufferedImage(i.getWidth(null),i.getHeight(null),BufferedImage.TYPE_INT_RGB);
 		Graphics2D g2 = (Graphics2D)newImage.getGraphics().create();
 
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

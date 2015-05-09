@@ -3,6 +3,8 @@ package testers;
 import entitystuff.Entity;
 import entitystuff.GameCharacter;
 import entitystuff.Player;
+import game.Game;
+import game.LightImage;
 import game.Map;
 
 import java.awt.Dimension;
@@ -17,17 +19,20 @@ import maps.DefaultMap;
 public class Tester {
 	public static void main(String[] args) {
 //		DefaultMapTest();
-//		WalkingTest();
-		EntityTest();
+//		WalkingInPlaceTest();
+//		JavaImageTest();
+//		LightImageTest();
+//		DrawGameTest();
+		MovementTest();
 	}
 	
 	public static void displayImage(Image i) {
 		getPicturePanel().setImage(i);
 	}
 	
-	public static PicturePanel getPicturePanel() {
+	public static PicturePanel getPicturePanel(String name) {
 		PicturePanel p = new PicturePanel();
-		JFrame j = new JFrame();
+		JFrame j = new JFrame(name);
 		j.add(p);
 		int x=500,y=500;	//width adjustments
 		Dimension dim = new Dimension(x,y);
@@ -41,11 +46,71 @@ public class Tester {
 		return p;
 	}
 	
-	public static void EntityTest() {
-		PicturePanel p = getPicturePanel();
+	public static PicturePanel getPicturePanel() {
+		return getPicturePanel("");
+	}
+	
+	public static void MovementTest() {
+		PicturePanel p = getPicturePanel("MovementTest");
+		Game g = new Game();
+		
+		LightImage i = LightImage.newLightImage();
+		
+		g.drawOn(i);
+		
+		g.p.setMag(1, 0);
+		
+		for(int a=0; a<1000; a++) {
+			g.p.update(1);
+			g.drawOn(i);
+			p.setImage(i.getImage());
+			delay(10);
+			
+			if(a > 750)
+				g.p.setMag(0, -1);
+			else if(a > 500)
+				g.p.setMag(-1, 0);
+			else if(a > 250)
+				g.p.setMag(0, 1);
+			
+			
+		}
+	}
+	
+	public static void DrawGameTest() {
+		PicturePanel p = getPicturePanel("GameTest");
+		Game g = new Game();
+		
+		LightImage i = LightImage.newLightImage();
+		
+		g.drawOn(i);
+		
+		p.setImage(i.getImage());
+	}
+
+	//This tests layering two entities on top of a map using the LightImage system
+	public static void LightImageTest() {
+		PicturePanel p = getPicturePanel("LightImageTest");
 		
 		Map m = new DefaultMap();
-		Image i = new BufferedImage(m.getWidth()*Map.RES,m.getHeight()*Map.RES,BufferedImage.TYPE_INT_ARGB);
+		LightImage l = LightImage.newLightImage();
+		m.drawOn(l);
+		
+		Entity player = new Player(m,0,0);
+		player.drawOn(l);
+		
+		Entity player2 = new Player(m,50,10);
+		player2.drawOn(l);
+		
+		p.setImage(l.getImage());
+	}
+	
+	//This tests layering two entities on top of a map using the graphics system
+	public static void JavaImageTest() {
+		PicturePanel p = getPicturePanel("JavaImageTest");
+		
+		Map m = new DefaultMap();
+		Image i = new BufferedImage(m.getWidth()*Map.RES,m.getHeight()*Map.RES,BufferedImage.TYPE_3BYTE_BGR);
 		Graphics g = i.getGraphics();
 		g.drawImage(m.toImage(), 0, 0, null);
 		
@@ -58,8 +123,8 @@ public class Tester {
 		p.setImage(i);
 	}
 	
-	public static void WalkingTest() {
-		PicturePanel p = getPicturePanel();
+	public static void WalkingInPlaceTest() {
+		PicturePanel p = getPicturePanel("WalkingInPlaceTest");
 		
 		Map m = new DefaultMap();
 		GameCharacter gC = new Player(m,0,0);
@@ -82,14 +147,9 @@ public class Tester {
 				break;
 			}
 			
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			delay(100);
 			
-			p.setImage(gC.image);
+			p.setImage(gC.image.getImage());
 		}
 			
 		displayImage(m.toImage());
@@ -99,5 +159,14 @@ public class Tester {
 		Map m = new DefaultMap();
 		
 		displayImage(m.toImage());
+	}
+	
+	public static void delay(long length) {
+		try {
+			Thread.sleep(length);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
 	}
 }

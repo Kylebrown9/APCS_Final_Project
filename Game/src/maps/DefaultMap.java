@@ -9,15 +9,15 @@ public class DefaultMap extends Map {
 		super(50, 50);
 		
 		//**************************Town Walls******************************
-		int wX=0,wY=2,wW=19,wH=20;
+		int wX=1,wY=2,wW=18,wH=20;
 		this.setRect(1, wX, wY, wW, wH);
-		this.setRect(0, wX+2, wY+1, wW-3, wH-2);
+		this.setRect(0, wX+1, wY+1, wW-2, wH-2);
 		
 		
 		//**************************Church**********************************
 		int cXOff = 0, cYOff = 0;
 		//wall
-		this.setRect(1, 5+cXOff, 0+cYOff, 10, 8);
+		this.setRect(1, 5+cXOff, 1+cYOff, 10, 7);
 		this.setRect(1, 6+cXOff, 8+cYOff, 8, 5);
 				
 		//floor
