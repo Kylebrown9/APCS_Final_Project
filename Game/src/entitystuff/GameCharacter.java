@@ -23,24 +23,22 @@ public class GameCharacter extends Entity {
 		elapsed+=time;
 		if(elapsed > stepTime) {
 			elapsed-=stepTime;
-			step++;
-			step %= 8;
+			step+=3;
+			step %= 18;
 		}
 		
 		if(Math.abs(super.xMag) > Math.abs(super.yMag)) 
 			if(super.xMag > 0)
-				dir = 3;
+				super.image = sprites.getSprite(3+8, step/2);
 			else
-				dir = 1;
+				super.image = sprites.getSprite(1+8, step/2);
 		else
 			if(super.yMag > 0)
-				dir = 2;
+				super.image = sprites.getSprite(2+8, step/2);
 			else
-				dir = 0;
+				super.image = sprites.getSprite(0+8, step/2);
 		
 		if(super.xMag == 0 && super.yMag == 0)
-			dir = -1;
-		
-		super.image = sprites.getSprite(dir+8, step);
+			super.image = sprites.getSprite(14, step/3);
 	}
 }

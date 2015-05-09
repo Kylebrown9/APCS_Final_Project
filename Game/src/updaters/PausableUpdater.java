@@ -7,7 +7,7 @@ public class PausableUpdater {
 	Runnable update;
 	Updater updater;
 	List<Updatable> updatables = new ArrayList<Updatable>();
-	boolean playing;
+	public boolean playing;
 	
 	public PausableUpdater(Updatable u) {
 		updatables.add(u);

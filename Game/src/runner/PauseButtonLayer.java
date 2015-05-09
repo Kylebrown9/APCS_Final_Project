@@ -11,21 +11,27 @@ import updaters.PausableUpdater;
 
 public class PauseButtonLayer extends Layer {
 
-	LightImage button;
+	LightImage buttonPause;
+	LightImage buttonPlay;
 	PausableUpdater updater;
+	
+	boolean state;
 	
 	public PauseButtonLayer(PausableUpdater updater) {
 		this.updater = updater;
 		
-		BufferedImage i = null;
+		BufferedImage pause = null;
+		BufferedImage play = null;
 		
 		try {
-			i = ImageIO.read(this.getClass().getResource("/Resources/button.jpg"));
+			pause = ImageIO.read(this.getClass().getResource("/Resources/buttonPause.jpg"));
+			play = ImageIO.read(this.getClass().getResource("/Resources/buttonPlay.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-		button = new LightImage(i);
+		buttonPause = new LightImage(pause);
+		buttonPlay = new LightImage(play);
 	}
 	
 	@Override
@@ -35,7 +41,10 @@ public class PauseButtonLayer extends Layer {
 
 	@Override
 	public void drawOn(LightImage i) {
-		button.drawOn(i, 450, 0);
+		if(updater.playing)
+			buttonPause.drawOn(i, 435, 0);
+		else 
+			buttonPlay.drawOn(i, 435, 0);
 	}
 
 	@Override

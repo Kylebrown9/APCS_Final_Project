@@ -52,7 +52,7 @@ public abstract class Entity {
 	}
 	
 	public void drawOn(LightImage i) {
-		image.drawOn(i, pos.x-(image.width/2)+i.width-m.xOff, pos.y-(image.height/2)+i.height-m.yOff);
+		image.drawOn(i, pos.x-i.width/2-m.xOff, pos.y-i.height/2-m.yOff);
 	}
 	
 	public int getX() {return pos.x;}

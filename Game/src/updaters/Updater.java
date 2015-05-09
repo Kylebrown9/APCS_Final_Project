@@ -6,6 +6,7 @@ import java.util.ListIterator;
 public class Updater extends Thread {
 	
 	List<Updatable> updatables;
+	ListIterator<Updatable> updateIT;
 	boolean running;
 	
 	public Updater(List<Updatable> updatables) {
@@ -13,30 +14,27 @@ public class Updater extends Thread {
 	}
 	
 	public void run() {
-		ListIterator<Updatable> updateIT;
-		boolean sentinel = false;
 		running = true;
 		
 		while(running) {
-			updateIT = updatables.listIterator();
+			updateAll();
 			
-			while(updateIT.hasNext()) {
-				updateIT.next().update();
-				
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					sentinel = true;
-				}
-				
-				if(sentinel)
-					System.out.println("Overran thread kill");
-			}
+			try {
+				Thread.sleep(20);
+			} catch (InterruptedException e) {}
 		}
+		
+		updateAll();
 	}
 	
 	public void end() {
 		running = false;
+	}
+	
+	public void updateAll() {
+		updateIT = updatables.listIterator();
+		
+		while(updateIT.hasNext())
+			updateIT.next().update();
 	}
 }

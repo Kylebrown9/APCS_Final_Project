@@ -14,13 +14,14 @@ public class LightImage {
 	private int[] pixelsI;
 	public int width, height;
 	
-	public static final int TRANSPARENT=16711900;	//the int code for R:255 G:0 B:220, pink
+//	public static final int TRANSPARENT=16711900;	//the int code for R:255 G:0 B:220, pink
+	public static final int TRANSPARENT=16777215;
 	
 	public static LightImage newLightImage() {
 		BufferedImage image = null;
 		
 		try {
-			image = ImageIO.read(LightImage.class.getClass().getResource("/Resources/canvasJPG.jpg"));
+			image = ImageIO.read(LightImage.class.getClass().getResource("/Resources/canvas.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -51,7 +52,7 @@ public class LightImage {
 			for	(int y=0; 	(y<height) && (y+yS < i.height);	y++){
 				color = this.getColor(x, y);
 				if(y+yS >= 0 && x+xS >= 0)
-					if(color != LightImage.TRANSPARENT)
+//					if(color != LightImage.TRANSPARENT)
 						i.setColor(x+xS,y+yS,color);
 			}
 					

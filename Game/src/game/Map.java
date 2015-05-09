@@ -24,6 +24,7 @@ public class Map {
 	
 	protected List<Rectangle> boundaries;
 	public int xOff=0, yOff=0;
+	public int pXOff=0, pYOff=0;
 	
 	public List<Entity> npcs = new ArrayList<Entity>();
 	
@@ -36,12 +37,12 @@ public class Map {
 		
 		//***************************************************************
 		String[] pathsJPG = {
-				"grass0BJPG.jpg",
-				"stone1BJPG.jpg",
-				"stone2BJPG.jpg",
-				"wood1BJPG.jpg",
-				"carpet0BJPG.jpg",
-				"step0BJPG.jpg"
+				"grass0B.png",
+				"stone1B.jpg",
+				"stone2B.png",
+				"wood1B.png",
+				"carpet0B.jpg",
+				"step0B.jpg"
 		};
 		
 		tiles = new BufferedImage[pathsJPG.length];

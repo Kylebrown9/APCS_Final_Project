@@ -13,7 +13,6 @@ import entitystuff.Player;
 public class Game implements Updatable {
 	public static final int interval = 1;
 	
-	int xOff=0, yOff=0;
 	Map map;
 	public Player p;
 	List<Entity> entities;
@@ -34,7 +33,7 @@ public class Game implements Updatable {
 	}
 	
 	public void input(int x, int y) {
-		p.setTarget(p.getX()+x-250+map.xOff,p.getY()+y-250+map.yOff);
+		p.setTargetRelative(x-250,y-250);
 		
 		update();
 	}
@@ -47,6 +46,8 @@ public class Game implements Updatable {
 	}
 	
 	public void update() {
+		map.pXOff = p.image.width/2;
+		map.pYOff = p.image.height/2;
 		map.xOff = p.getX();
 		map.yOff = p.getY();
 		

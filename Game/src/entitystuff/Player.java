@@ -11,7 +11,7 @@ public class Player extends GameCharacter {
 	
 	public Player(Map m, int x, int y) {
 //		super(m, "/Resources/playerPNG.png",x,y);
-		super(m, "/Resources/sprite.png",x,y);
+		super(m, "/Resources/player.png",x,y);
 		targetX = x;
 		targetY = y;
 		
@@ -22,6 +22,11 @@ public class Player extends GameCharacter {
 	public void setTarget(int x, int y) {
 		targetX = x;
 		targetY = y;
+	}
+	
+	public void setTargetRelative(int x, int y) {
+		targetX = pos.x + x;
+		targetY = pos.y + y;
 	}
 	
 	public void update(int time) {
