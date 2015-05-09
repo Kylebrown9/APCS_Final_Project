@@ -25,7 +25,7 @@ public abstract class Entity {
 	public LightImage image = null;				//Entities current image
 	
 	//*************************Collision************************************************************
-	public int width=0,height=0;				//Width and height for collision purposes
+	public int width=0,height=0;				//Width and height
 	private boolean xCol, yCol;					//x and y Collision indicators
 	
 	//*************************Entity Interaction***************************************************
@@ -47,9 +47,11 @@ public abstract class Entity {
 	}
 	
 	public void update(int time) {
+		//************************Calculate New Position********************************************
 		double dTime = time;
 		double newX=x+(dTime*xMag*speed), newY=y+(dTime*yMag*speed);
 		
+		//************************Boundary Collision Checks******************************************
 		if(m.inBounds((int)newX,(int)newY,width,height)) {
 			x = newX;
 			y = newY;
@@ -68,6 +70,7 @@ public abstract class Entity {
 			yCol = true;
 		}
 		
+		//***********************Set position for drawing****************************************
 		pos.x = (int) x;
 		pos.y = (int) y;
 	}
@@ -77,7 +80,7 @@ public abstract class Entity {
 	}
 	
 	public void drawOn(LightImage i) {
-		image.drawOn(i, pos.x+i.width/2-m.xOff, pos.y+i.height/2-m.yOff);
+		image.drawOn(i, pos.x+i.width/2-m.xOff-image.width/2, pos.y+i.height/2-m.yOff-image.height/2);
 	}
 	
 	public void damage(int damage) {

@@ -1,10 +1,11 @@
 package maps;
 
-import entitystuff.Dummy;
 import entitystuff.Entity;
+import entitystuff.GaurdEnemy;
 import entitystuff.PlayerCharacter;
 import game.Map;
 
+import java.awt.Point;
 import java.awt.Rectangle;
 
 public class Dungeon extends Map {
@@ -12,20 +13,21 @@ public class Dungeon extends Map {
 	public Dungeon() {
 		super(50, 50);
 		
-		setRect(1,0,0,20,20);
+		int xOffset=20, yOffset=20;
 		
-		addRect(2,new Rectangle(2,2,5,5));
-		addRect(2,new Rectangle(4,5,1,5));
-		addRect(2,new Rectangle(2,8,5,5));
-		addRect(2,new Rectangle(5,9,5,3));
-		addRect(2,new Rectangle(8,8,5,5));
+		setRect(1,0,0,50,50);
 		
-//		boundaries.add(new Rectangle(0,0,50*Map.RES,50*Map.RES));
+		addRect(2,new Rectangle(2+xOffset,2+yOffset,5,5));
+		addRect(2,new Rectangle(4+xOffset,5+yOffset,1,5));
+		addRect(2,new Rectangle(2+xOffset,8+yOffset,5,5));
+		addRect(2,new Rectangle(5+xOffset,9+yOffset,5,3));
+		addRect(2,new Rectangle(8+xOffset,8+yOffset,5,20));
 		
-//		super.npcs.add(new Enemy((Map)this,500,500,(Entity)p,new Point(500,500),new Point(500,520)));
-		Entity thingy = new Dummy(this,120,120);
-		entities.add(thingy);
-		p = new PlayerCharacter(this,120,120);
+		p = new PlayerCharacter(this,120+xOffset*RES,120+yOffset*RES);
+		
+		Entity enemy2 = new GaurdEnemy((Map)this,250+xOffset*RES,300+yOffset*RES,
+				(Entity)p,new Point(250+xOffset*RES,300+yOffset*RES));
+		entities.add(enemy2);
 	}
 
 }

@@ -66,23 +66,23 @@ public class Game implements Updatable {
 	}
 	
 	public void update() {
+		//************************Set Offsets*************************************
 		map.pXOff = p.image.width/2;
 		map.pYOff = p.image.height/2;
 		map.xOff = p.getX();
 		map.yOff = p.getY();
 		
+		//*************************Remove Dead*************************************
 		List<Entity> deadEntities = new ArrayList<Entity>();
 		
 		for (Entity e : entities)
 		    if (e.isDead())
 		       deadEntities.add(e);
 
-		 // Pass 2 - delete
-		 for (Entity deadEntity : deadEntities) {
+		for (Entity deadEntity : deadEntities)
 		    entities.remove(deadEntity);
-		 }
-		
-		//Update all entities
+		 
+		//**************************Update Remaining*******************************
 		for(int i=0; i<entities.size(); i++)
 				entities.get(i).update(interval);
 	}

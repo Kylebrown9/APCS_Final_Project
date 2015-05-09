@@ -6,7 +6,7 @@ import game.Map;
 public class FireBall extends Entity {
 
 	public static final int DAMAGE = 200;
-	public static final int CLOSE_ENOUGH  = 10;
+	public static final int CLOSE_ENOUGH  = 30;
 	
 	int targetX, targetY;
 	

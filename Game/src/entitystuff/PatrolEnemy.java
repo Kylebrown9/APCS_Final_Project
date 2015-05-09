@@ -4,8 +4,8 @@ import game.Map;
 
 import java.awt.Point;
 
-public class EnemyCharacter extends Character {
-	public static final int CLOSE_ENOUGH  = 1;
+public class PatrolEnemy extends Character {
+	public static final int CLOSE_ENOUGH  = 10;
 	public static final int SIGHTRANGE  = 50;
 	
 	public static final int PLAYER  = 0;
@@ -17,11 +17,15 @@ public class EnemyCharacter extends Character {
 	
 	int destID;
 	
-	public EnemyCharacter(Map m, int x, int y, Entity player, Point patrol1, Point patrol2) {
-		super(m, "/Resources/skeleton.png", x, y);
+	public PatrolEnemy(Map m, int x, int y, Entity player, Point patrol1, Point patrol2) {
+		super(m, "/Resources/enemy.png", x, y);
 		this.player = player;
 		p1 = patrol1;
 		p2 = patrol2;
+		
+		speed = 0.7;
+		type = Entity.TYPE_ENEMY;
+		destID = PATROL2;
 	}
 	
 	public void update(int time) {
@@ -49,6 +53,14 @@ public class EnemyCharacter extends Character {
 					moveTowards(p1,p2Dist);
 				} else {
 					moveTowards(p2,p1Dist);
+				}
+			} else if (destID == PLAYER) {
+				if(p1Dist < p2Dist) {
+					destID = PATROL1;
+					moveTowards(p1,p1Dist);
+				} else {
+					destID = PATROL2;
+					moveTowards(p2,p2Dist);
 				}
 			}
 		}
