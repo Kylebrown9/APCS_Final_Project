@@ -2,7 +2,7 @@ package testers;
 
 import entitystuff.Entity;
 import entitystuff.GameCharacter;
-import entitystuff.Player;
+import entitystuff.PlayerCharacter;
 import game.Game;
 import game.LightImage;
 import game.Map;
@@ -96,10 +96,10 @@ public class Tester {
 		LightImage i = new LightImage(new Dimension(500,500));
 		m.drawOn(i);
 		
-		Entity player = new Player(m,0,0);
+		Entity player = new PlayerCharacter(m,0,0);
 		player.drawOn(i);
 		
-		Entity player2 = new Player(m,50,10);
+		Entity player2 = new PlayerCharacter(m,50,10);
 		player2.drawOn(i);
 		
 		p.setImage(i.getImage());
@@ -114,10 +114,10 @@ public class Tester {
 		Graphics g = i.getGraphics();
 		g.drawImage(m.toImage(), 0, 0, null);
 		
-		Entity player = new Player(m,0,0);
+		Entity player = new PlayerCharacter(m,0,0);
 		player.drawOn(g);
 		
-		Entity player2 = new Player(m,50,10);
+		Entity player2 = new PlayerCharacter(m,50,10);
 		player2.drawOn(g);
 		
 		p.setImage(i);
@@ -127,7 +127,7 @@ public class Tester {
 		PicturePanel p = getPicturePanel("WalkingInPlaceTest");
 		
 		Map m = new DefaultMap();
-		GameCharacter gC = new Player(m,0,0);
+		GameCharacter gC = new PlayerCharacter(m,0,0);
 		
 		for(int i=0; i<1000; i++){
 			gC.update(10);

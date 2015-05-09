@@ -53,19 +53,4 @@ public class Enemy extends GameCharacter {
 			}
 		}
 	}
-	
-	public double distTo(Point dest) {
-		double xDiff = dest.x-x;
-		double yDiff = dest.y-y;
-		
-		return Math.sqrt(xDiff*xDiff + yDiff*yDiff);
-	}
-	
-	public void moveTowards(Point dest, double dist) {
-		if(dist < CLOSE_ENOUGH)
-			this.setMag(0, 0);
-		else
-			this.setMag((dest.x-x)/dist, (dest.y-y)/dist);
-	}
-
 }

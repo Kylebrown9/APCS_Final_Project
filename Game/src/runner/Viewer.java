@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ import javax.swing.JPanel;
 import updaters.PausableUpdater;
 import updaters.Updatable;
 
-public class Viewer extends JPanel implements MouseListener, ComponentListener, Updatable {
+public class Viewer extends JPanel implements MouseListener, KeyListener, ComponentListener, Updatable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -41,6 +43,7 @@ public class Viewer extends JPanel implements MouseListener, ComponentListener, 
 	    
 	    jF.addMouseListener(v);
 	    jF.addComponentListener(v);
+	    jF.addKeyListener(v);
 	}
 
 	Dimension dim;
@@ -81,8 +84,20 @@ public class Viewer extends JPanel implements MouseListener, ComponentListener, 
 	@Override
 	public void mousePressed(MouseEvent me) {
 		for(int i=0; i<layers.size(); i++) {
-			if(layers.get(i).inLayer(me.getX(), me.getY())) {
+			if(layers.get(i).inLayer(me.getX(), me.getY()) && layers.get(i).active) {
 				layers.get(i).input(me.getX(), me.getY());
+				return;
+			}
+		}
+		
+		repaint();
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent arg0) {	
+		for(int i=0; i<layers.size(); i++) {
+			if(layers.get(i).acceptsKeys() && layers.get(i).active) {
+				layers.get(i).input(arg0);
 				return;
 			}
 		}
@@ -103,7 +118,7 @@ public class Viewer extends JPanel implements MouseListener, ComponentListener, 
 		repaint();
 	}
 	
-	
+	//**********************************************************************************************
 	@Override
 	public void mouseReleased(MouseEvent arg0) {}
 	@Override
@@ -113,10 +128,20 @@ public class Viewer extends JPanel implements MouseListener, ComponentListener, 
 	@Override
 	public void mouseClicked(MouseEvent e) {}
 
+	//**********************************************************************************************
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {}
+	@Override
+	public void keyTyped(KeyEvent arg0) {}
+	
+	//**********************************************************************************************
 	@Override
 	public void componentHidden(ComponentEvent arg0) {}
 	@Override
 	public void componentMoved(ComponentEvent e) {}
 	@Override
 	public void componentShown(ComponentEvent e) {}
+
+	
 }

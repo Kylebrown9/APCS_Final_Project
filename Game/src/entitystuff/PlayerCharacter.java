@@ -3,13 +3,14 @@ package entitystuff;
 import game.LightImage;
 import game.Map;
 
-public class Player extends GameCharacter {
+public class PlayerCharacter extends GameCharacter {
 
 	public static final int CLOSE_ENOUGH  = 1;
 	
 	int targetX, targetY;
 	
-	public Player(Map m, int x, int y) {
+	
+	public PlayerCharacter(Map m, int x, int y) {
 //		super(m, "/Resources/playerPNG.png",x,y);
 		super(m, "/Resources/player.png",x,y);
 		targetX = x;
@@ -17,6 +18,8 @@ public class Player extends GameCharacter {
 		
 		width = 20;
 		height = 50;
+		
+		type = 1;
 	}
 	
 	public void setTarget(int x, int y) {

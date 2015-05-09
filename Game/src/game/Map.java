@@ -12,6 +12,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import entitystuff.Entity;
+import entitystuff.PlayerCharacter;
 
 public class Map {
 	public static final int RES = 25;
@@ -26,7 +27,9 @@ public class Map {
 	public int xOff=0, yOff=0;
 	public int pXOff=0, pYOff=0;
 	
-	public List<Entity> npcs = new ArrayList<Entity>();
+	public List<Entity> entities = new ArrayList<Entity>();
+	protected PlayerCharacter p;
+	
 	
 	public Map(int width, int height) {
 		this.width = width;

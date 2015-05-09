@@ -1,13 +1,15 @@
 package maps;
 
-import entitystuff.Player;
+import entitystuff.Dummy;
+import entitystuff.Entity;
+import entitystuff.PlayerCharacter;
 import game.Map;
 
 import java.awt.Rectangle;
 
 public class Dungeon extends Map {
 
-	public Dungeon(Player p) {
+	public Dungeon() {
 		super(50, 50);
 		
 		setRect(1,0,0,20,20);
@@ -19,6 +21,9 @@ public class Dungeon extends Map {
 		addRect(2,new Rectangle(8,8,5,5));
 		
 //		super.npcs.add(new Enemy((Map)this,500,500,(Entity)p,new Point(500,500),new Point(500,520)));
+		Entity thingy = new Dummy(this,120,120);
+		entities.add(thingy);
+		p = new PlayerCharacter(this,120,120);
 	}
 
 }

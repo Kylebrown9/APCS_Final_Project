@@ -7,15 +7,20 @@ import java.awt.Graphics;
 import java.awt.Point;
 
 public abstract class Entity {	
-	Map m;
+	public static final int CLOSE_ENOUGH  = 1;
+	
+	public Map m;
 	protected double x=0, y=0;//, rot;
 	protected Point pos;
 	
 	protected double xMag=0, yMag=0;
-	private double speed = 1;
+	protected double speed = 1;
 	
 	public int width=0,height=0;
 	public LightImage image = null;
+	
+	public int health=10;
+	public int type = 0;
 	
 	public Entity(Map m, int x, int y) {
 		this.m = m;
@@ -53,6 +58,24 @@ public abstract class Entity {
 	
 	public void drawOn(LightImage i) {
 		image.drawOn(i, pos.x-i.width/2-m.xOff, pos.y-i.height/2-m.yOff);
+	}
+	
+	public void damage(int damage) {
+		health -= damage;
+	}
+	
+	public double distTo(Point dest) {
+		double xDiff = dest.x-x;
+		double yDiff = dest.y-y;
+		
+		return Math.sqrt(xDiff*xDiff + yDiff*yDiff);
+	}
+	
+	public void moveTowards(Point dest, double dist) {
+		if(dist < CLOSE_ENOUGH)
+			this.setMag(0, 0);
+		else
+			this.setMag((dest.x-x)/dist, (dest.y-y)/dist);
 	}
 	
 	public int getX() {return pos.x;}

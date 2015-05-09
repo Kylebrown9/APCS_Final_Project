@@ -41,6 +41,10 @@ public class PauseButtonLayer extends Layer {
 	public boolean inLayer(int x, int y) {
 		return x >= windowDim.width-50 && x <= windowDim.width && y >= 0 && y <=100;
 	}
+	
+	public boolean acceptsKeys() {
+		return false;
+	}
 
 	@Override
 	public void drawOn(LightImage i) {
