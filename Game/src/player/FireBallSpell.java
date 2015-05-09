@@ -13,7 +13,7 @@ public class FireBallSpell extends Spell {
 	LightImage image;
 	
 	public FireBallSpell(PlayerCharacter pC, int level) {
-		super(pC.m, pC, level, 3000);
+		super(pC.m, pC, level, 1000);
 		
 		try {
 			image = new LightImage(ImageIO.read(this.getClass().getResource("/Resources/" + "fireball.png")));

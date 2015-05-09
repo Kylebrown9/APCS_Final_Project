@@ -20,4 +20,8 @@ public class Dummy extends Entity {
 		
 		type = Entity.TYPE_ENEMY;
 	}
+	
+	public boolean isDead() {
+		return super.isDead();
+	}
 }

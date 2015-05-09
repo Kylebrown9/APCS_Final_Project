@@ -35,8 +35,8 @@ public class PlayerCharacter extends Character {
 	public void update(int time) {
 		super.update(time);
 		
-		double xDiff = targetX-x;
-		double yDiff = targetY-y;
+		double xDiff = targetX-getPos().x;
+		double yDiff = targetY-getPos().y;
 		
 		double dist =  Math.sqrt(xDiff*xDiff + yDiff*yDiff);
 		

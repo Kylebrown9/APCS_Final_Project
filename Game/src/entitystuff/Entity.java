@@ -5,27 +5,33 @@ import game.Map;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.List;
 
 public abstract class Entity {	
+	//*************************Constants*********************************************************
 	public static final int CLOSE_ENOUGH  = 1;
 	public static final int TYPE_NOCOLLISION  = 0;
 	public static final int TYPE_PLAYER  = 1;
 	public static final int TYPE_ENEMY  = 2;
 	
 	public Map m;
-	protected double x=0, y=0;//, rot;
-	protected Point pos;
 	
-	protected double xMag=0, yMag=0;
-	protected double speed = 1;
+	//*************************Movement***********************************************************
+	protected double x=0, y=0;					//double x and y for calculations
+	protected double xMag=0, yMag=0, speed = 1; //directional magnitudes and total speed
+
+	//*************************Drawing*************************************************************
+	protected Point pos;						//integer x and y for drawing
+	public LightImage image = null;				//Entities current image
 	
-	public int width=0,height=0;
-	public LightImage image = null;
+	//*************************Collision************************************************************
+	public int width=0,height=0;				//Width and height for collision purposes
+	private boolean xCol, yCol;					//x and y Collision indicators
 	
+	//*************************Entity Interaction***************************************************
+	List<Entity> entities;
 	public int health=10;
 	public int type = 0;
-	
-	protected boolean wallEffect = false;
 	
 	public Entity(Map m, int x, int y) {
 		this.m = m;
@@ -47,14 +53,19 @@ public abstract class Entity {
 		if(m.inBounds((int)newX,(int)newY,width,height)) {
 			x = newX;
 			y = newY;
+			
+			xCol = false;
+			yCol = false;
 		} else if (m.inBounds(pos.x,(int)newY,width,height)) {
 			y = newY;
-			if(wallEffect)
-				health = 0;
+			
+			xCol = true;
+			yCol = false;
 		} else if (m.inBounds((int)newX,pos.y,width,height)) {
 			x = newX;
-			if(wallEffect)
-				health = 0;
+			
+			xCol = false;
+			yCol = true;
 		}
 		
 		pos.x = (int) x;
@@ -73,6 +84,10 @@ public abstract class Entity {
 		health -= damage;
 	}
 	
+	public boolean isDead() {
+		return health <= 0;
+	}
+	
 	public double distTo(Point dest) {
 		double xDiff = dest.x-x;
 		double yDiff = dest.y-y;
@@ -87,6 +102,8 @@ public abstract class Entity {
 			this.setMag((dest.x-x)/dist, (dest.y-y)/dist);
 	}
 	
+	public boolean xCollision() {return xCol;}
+	public boolean yCollision() {return yCol;}
 	public Point getPos() {return pos;}
 	public int getX() {return pos.x;}
 	public int getY() {return pos.y;}

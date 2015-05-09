@@ -5,7 +5,7 @@ import game.Map;
 
 public class FireBall extends Entity {
 
-	public static final int DAMAGE = 20;
+	public static final int DAMAGE = 200;
 	public static final int CLOSE_ENOUGH  = 10;
 	
 	int targetX, targetY;
@@ -22,19 +22,26 @@ public class FireBall extends Entity {
 		
 		image = fball;
 		
+		speed = 3;
+		
 		type = Entity.TYPE_NOCOLLISION;
-		wallEffect = true;
 	}
 
 	public void update(int time) {
 		super.update(time);
 		Entity entity;
 		
+		if(xCollision() || yCollision()) {
+			this.health = 0;
+			return;
+		}
+		
 		for(int i=0; i<m.entities.size(); i++) {
 			entity = m.entities.get(i);
 			
 			if(distTo(entity.getPos()) < CLOSE_ENOUGH && entity.type == Entity.TYPE_ENEMY) {
 				entity.damage(DAMAGE);
+				entity.health = 0;
 				this.health = 0;
 				return;
 			}
