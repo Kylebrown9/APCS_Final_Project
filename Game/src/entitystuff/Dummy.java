@@ -17,6 +17,7 @@ public class Dummy extends Entity {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		type = Entity.TYPE_ENEMY;
 	}
-
 }

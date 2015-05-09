@@ -8,6 +8,9 @@ import java.awt.Point;
 
 public abstract class Entity {	
 	public static final int CLOSE_ENOUGH  = 1;
+	public static final int TYPE_NOCOLLISION  = 0;
+	public static final int TYPE_PLAYER  = 1;
+	public static final int TYPE_ENEMY  = 2;
 	
 	public Map m;
 	protected double x=0, y=0;//, rot;
@@ -21,6 +24,8 @@ public abstract class Entity {
 	
 	public int health=10;
 	public int type = 0;
+	
+	protected boolean wallEffect = false;
 	
 	public Entity(Map m, int x, int y) {
 		this.m = m;
@@ -44,8 +49,12 @@ public abstract class Entity {
 			y = newY;
 		} else if (m.inBounds(pos.x,(int)newY,width,height)) {
 			y = newY;
+			if(wallEffect)
+				health = 0;
 		} else if (m.inBounds((int)newX,pos.y,width,height)) {
 			x = newX;
+			if(wallEffect)
+				health = 0;
 		}
 		
 		pos.x = (int) x;

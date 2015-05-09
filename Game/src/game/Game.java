@@ -61,7 +61,8 @@ public class Game implements Updatable {
 		map.drawOn(image);
 
 		for(int i=0; i<entities.size(); i++)
-			entities.get(i).drawOn(image);
+			if(entities.get(i).health > 0)
+				entities.get(i).drawOn(image);
 	}
 	
 	public void update() {
@@ -70,10 +71,12 @@ public class Game implements Updatable {
 		map.xOff = p.getX();
 		map.yOff = p.getY();
 		
-		for(int i=entities.size()-1; i>0; i--)
+		//Remove dead entities
+		for(int i=entities.size()-1; i>0; i--)	//Contains error does not remove dead Dummy objects
 			if(entities.get(i).health <= 0)
 				entities.remove(i);
 		
+		//Update all entities
 		for(int i=0; i<entities.size(); i++)
 				entities.get(i).update(interval);
 	}

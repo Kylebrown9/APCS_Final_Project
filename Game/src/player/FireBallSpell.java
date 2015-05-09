@@ -13,7 +13,7 @@ public class FireBallSpell extends Spell {
 	LightImage image;
 	
 	public FireBallSpell(PlayerCharacter pC, int level) {
-		super(pC.m, pC, level);
+		super(pC.m, pC, level, 3000);
 		
 		try {
 			image = new LightImage(ImageIO.read(this.getClass().getResource("/Resources/" + "fireball.png")));
@@ -22,7 +22,7 @@ public class FireBallSpell extends Spell {
 		}
 	}
 
-	public void cast(int x, int y) {
+	public void doSpellAction(int x, int y) {
 		m.entities.add(new FireBall(m,image,p.getPos().x,p.getPos().y,p.getPos().x+x,p.getPos().y+y));
 	}
 }

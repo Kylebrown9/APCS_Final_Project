@@ -19,7 +19,7 @@ public class PlayerCharacter extends Character {
 		width = 20;
 		height = 50;
 		
-		type = 1;
+		type = Entity.TYPE_PLAYER;
 	}
 	
 	public void setTarget(int x, int y) {
