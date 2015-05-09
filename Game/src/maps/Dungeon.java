@@ -20,6 +20,8 @@ public class Dungeon extends Map {
 		addRect(2,new Rectangle(5,9,5,3));
 		addRect(2,new Rectangle(8,8,5,5));
 		
+//		boundaries.add(new Rectangle(0,0,50*Map.RES,50*Map.RES));
+		
 //		super.npcs.add(new Enemy((Map)this,500,500,(Entity)p,new Point(500,500),new Point(500,520)));
 		Entity thingy = new Dummy(this,120,120);
 		entities.add(thingy);

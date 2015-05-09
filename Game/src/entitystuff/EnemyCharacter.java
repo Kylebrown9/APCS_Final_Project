@@ -4,7 +4,7 @@ import game.Map;
 
 import java.awt.Point;
 
-public class Enemy extends GameCharacter {
+public class EnemyCharacter extends Character {
 	public static final int CLOSE_ENOUGH  = 1;
 	public static final int SIGHTRANGE  = 50;
 	
@@ -17,7 +17,7 @@ public class Enemy extends GameCharacter {
 	
 	int destID;
 	
-	public Enemy(Map m, int x, int y, Entity player, Point patrol1, Point patrol2) {
+	public EnemyCharacter(Map m, int x, int y, Entity player, Point patrol1, Point patrol2) {
 		super(m, "/Resources/skeleton.png", x, y);
 		this.player = player;
 		p1 = patrol1;

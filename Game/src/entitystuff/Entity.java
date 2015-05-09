@@ -57,7 +57,7 @@ public abstract class Entity {
 	}
 	
 	public void drawOn(LightImage i) {
-		image.drawOn(i, pos.x-i.width/2-m.xOff, pos.y-i.height/2-m.yOff);
+		image.drawOn(i, pos.x+i.width/2-m.xOff, pos.y+i.height/2-m.yOff);
 	}
 	
 	public void damage(int damage) {
@@ -78,10 +78,7 @@ public abstract class Entity {
 			this.setMag((dest.x-x)/dist, (dest.y-y)/dist);
 	}
 	
+	public Point getPos() {return pos;}
 	public int getX() {return pos.x;}
 	public int getY() {return pos.y;}
-	
-	public Point getPos() {
-		return pos;
-	}
 }

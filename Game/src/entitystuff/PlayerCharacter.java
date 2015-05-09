@@ -3,7 +3,7 @@ package entitystuff;
 import game.LightImage;
 import game.Map;
 
-public class PlayerCharacter extends GameCharacter {
+public class PlayerCharacter extends Character {
 
 	public static final int CLOSE_ENOUGH  = 1;
 	

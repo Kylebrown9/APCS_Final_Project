@@ -45,10 +45,9 @@ public class Game implements Updatable {
 			p.setTargetRelative(x-windowDim.width/2,y-windowDim.height/2);
 		else {
 			p.setTargetRelative(0,0);
-			player.cast(0, x, y);
+			player.cast(0, x-windowDim.width/2,y-windowDim.height/2);
 			casting = false;
 		}
-			
 		
 		update();
 	}

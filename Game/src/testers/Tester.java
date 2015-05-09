@@ -1,7 +1,7 @@
 package testers;
 
 import entitystuff.Entity;
-import entitystuff.GameCharacter;
+import entitystuff.Character;
 import entitystuff.PlayerCharacter;
 import game.Game;
 import game.LightImage;
@@ -127,7 +127,7 @@ public class Tester {
 		PicturePanel p = getPicturePanel("WalkingInPlaceTest");
 		
 		Map m = new DefaultMap();
-		GameCharacter gC = new PlayerCharacter(m,0,0);
+		Character gC = new PlayerCharacter(m,0,0);
 		
 		for(int i=0; i<1000; i++){
 			gC.update(10);

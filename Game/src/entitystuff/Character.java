@@ -2,7 +2,7 @@ package entitystuff;
 
 import game.Map;
 
-public class GameCharacter extends Entity {
+public class Character extends Entity {
 
 	int dir=0, step=0;
 	int elapsed=0;
@@ -10,7 +10,7 @@ public class GameCharacter extends Entity {
 	
 	SpriteSet sprites;
 	
-	public GameCharacter(Map m, String path, int x, int y) {
+	public Character(Map m, String path, int x, int y) {
 		super(m,x,y);
 		
 		sprites = new SpriteSet(path);
