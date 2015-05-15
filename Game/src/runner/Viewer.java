@@ -2,6 +2,7 @@ package runner;
 
 import game.Game;
 import game.LightImage;
+import game.Player;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -14,7 +15,6 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import updaters.PausableUpdater;
@@ -24,31 +24,10 @@ public class Viewer extends JPanel implements MouseListener, KeyListener, Compon
 
 	private static final long serialVersionUID = 1L;
 
-	public static void main(String[] args) {
-		Dimension dim = new Dimension(800,800);
-		
-		Viewer v = new Viewer(dim);
-	    v.setVisible(true);  
-	    
-	    JFrame jF = new JFrame("Dungeon Crawler");
-	    jF.add(v);
-	    
-		jF.setMaximumSize(dim);
-		jF.setMinimumSize(dim);
-		jF.setPreferredSize(dim);
-		jF.setLocationRelativeTo(null);
-		jF.setVisible(true);
-		jF.setFocusable(true);
-	    jF.pack();
-	    
-	    jF.addMouseListener(v);
-	    jF.addComponentListener(v);
-	    jF.addKeyListener(v);
-	}
-
 	Dimension dim;
 	
 	List<Layer> layers;
+	Player p;
 	Game g;
 	
 	PauseButtonLayer pauseLayer;

@@ -1,6 +1,6 @@
 package entitystuff;
 
-import game.Map;
+import game.GameMap;
 
 public class Character extends Entity {
 
@@ -10,7 +10,7 @@ public class Character extends Entity {
 	
 	SpriteSet sprites;
 	
-	public Character(Map m, String path, int x, int y) {
+	public Character(GameMap m, String path, int x, int y) {
 		super(m,x,y);
 		
 		sprites = new SpriteSet(path);

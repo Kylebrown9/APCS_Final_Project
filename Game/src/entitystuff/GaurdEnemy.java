@@ -1,21 +1,21 @@
 package entitystuff;
 
-import game.Map;
+import game.GameMap;
 
 import java.awt.Point;
 
 public class GaurdEnemy extends Character {
-	public static final int CLOSE_ENOUGH  = 10;
-	public static final int SIGHTRANGE  = 50;
-	public static final int DAMAGE  = 1;
+	public static final int CLOSE_ENOUGH  = 20;
+	public static final int SIGHTRANGE  = 150;
+	public static final int DAMAGE = 1;
 	
 	Entity player;
 	Point gaurdPos, target;
 	
-	public GaurdEnemy(Map m, int x, int y, Entity player, Point gaurdPos) {
+	public GaurdEnemy(GameMap m, int x, int y, Entity player) {
 		super(m, "/Resources/enemy.png", x, y);
 		this.player = player;
-		this.gaurdPos = gaurdPos;
+		this.gaurdPos = new Point(x,y);
 		
 		speed = 0.7;
 		type = Entity.TYPE_ENEMY;

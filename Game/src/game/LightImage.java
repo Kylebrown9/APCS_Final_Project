@@ -2,6 +2,7 @@ package game;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
@@ -62,6 +63,14 @@ public class LightImage {
 	
 	public void drawOnCentered(LightImage i) {
 		drawOn(i,(i.width-this.width)/2,(i.height-this.height/2));
+	}
+	
+	public void drawLineOn(Point p1, Point p2) {
+		int m = (p1.y-p2.y)/(p1.x-p2.x);
+		int b = p1.y-m*p1.x;
+		for(int x=p1.x; x<p2.x; x++) {
+			setColor(x,m*x+b,0);
+		}
 	}
 	
 	public LightImage subImage(int x, int y, int width, int height) {

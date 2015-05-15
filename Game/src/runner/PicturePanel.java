@@ -1,4 +1,4 @@
-package testers;
+package runner;
 
 import java.awt.Graphics;
 import java.awt.Image;

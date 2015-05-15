@@ -3,12 +3,11 @@ package maps;
 import entitystuff.Entity;
 import entitystuff.GaurdEnemy;
 import entitystuff.PlayerCharacter;
-import game.Map;
+import game.GameMap;
 
-import java.awt.Point;
 import java.awt.Rectangle;
 
-public class Dungeon extends Map {
+public class Dungeon extends GameMap {
 
 	public Dungeon() {
 		super(50, 50);
@@ -25,9 +24,12 @@ public class Dungeon extends Map {
 		
 		p = new PlayerCharacter(this,120+xOffset*RES,120+yOffset*RES);
 		
-		Entity enemy2 = new GaurdEnemy((Map)this,250+xOffset*RES,300+yOffset*RES,
-				(Entity)p,new Point(250+xOffset*RES,300+yOffset*RES));
+		Entity enemy1 = new GaurdEnemy((GameMap)this,250+xOffset*RES,300+yOffset*RES,(Entity)p);
+		Entity enemy2 = new GaurdEnemy((GameMap)this,270+xOffset*RES,300+yOffset*RES,(Entity)p);
+		Entity enemy3 = new GaurdEnemy((GameMap)this,260+xOffset*RES,320+yOffset*RES,(Entity)p);
+		entities.add(enemy1);
 		entities.add(enemy2);
+		entities.add(enemy3);
 	}
 
 }

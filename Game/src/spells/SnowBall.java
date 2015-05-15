@@ -1,16 +1,15 @@
-package entitystuff;
+package spells;
 
+import entitystuff.Entity;
+import game.GameMap;
 import game.LightImage;
-import game.Map;
 
-public class FireBall extends Entity {
-
-	public static final int DAMAGE = 200;
+public class SnowBall extends Entity {
 	public static final int CLOSE_ENOUGH  = 30;
 	
 	int targetX, targetY;
 	
-	public FireBall(Map m, LightImage fball, int x, int y, int targetX, int targetY) {
+	public SnowBall(GameMap m, LightImage sBall, int x, int y, int targetX, int targetY) {
 		super(m, x, y);
 		
 		double xDiff = targetX-x;
@@ -20,7 +19,7 @@ public class FireBall extends Entity {
 
 		this.setMag(xDiff/dist, yDiff/dist);
 		
-		image = fball;
+		image = sBall;
 		
 		speed = 3;
 		
@@ -40,8 +39,7 @@ public class FireBall extends Entity {
 			entity = m.entities.get(i);
 			
 			if(distTo(entity.getPos()) < CLOSE_ENOUGH && entity.type == Entity.TYPE_ENEMY) {
-				entity.damage(DAMAGE);
-				entity.health = 0;
+				entity.add(new Slow("SBALL-Slow",entity,300,0.5));
 				this.health = 0;
 				return;
 			}

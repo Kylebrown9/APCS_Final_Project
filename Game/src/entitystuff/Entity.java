@@ -1,11 +1,16 @@
 package entitystuff;
 
+import game.GameMap;
 import game.LightImage;
-import game.Map;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import spells.PassiveEffect;
 
 public abstract class Entity {	
 	//*************************Constants*********************************************************
@@ -14,12 +19,16 @@ public abstract class Entity {
 	public static final int TYPE_PLAYER  = 1;
 	public static final int TYPE_ENEMY  = 2;
 	
-	public Map m;
+	public GameMap m;
+	
+	//
+	protected Map<String,PassiveEffect> effects = new TreeMap<String,PassiveEffect>();
 	
 	//*************************Movement***********************************************************
 	protected double x=0, y=0;					//double x and y for calculations
-	protected double xMag=0, yMag=0, speed = 1; //directional magnitudes and total speed
-
+	protected double xMag=0, yMag=0, baseSpeed=1;//directional magnitudes
+	public double speed=0;
+	
 	//*************************Drawing*************************************************************
 	protected Point pos;						//integer x and y for drawing
 	public LightImage image = null;				//Entities current image
@@ -30,10 +39,10 @@ public abstract class Entity {
 	
 	//*************************Entity Interaction***************************************************
 	List<Entity> entities;
-	public int health=10;
+	public int health=10, maxHealth=10;
 	public int type = 0;
 	
-	public Entity(Map m, int x, int y) {
+	public Entity(GameMap m, int x, int y) {
 		this.m = m;
 		this.x = x;
 		this.y = y;
@@ -42,16 +51,35 @@ public abstract class Entity {
 	}
 	
 	public void setMag(double xVel, double yVel) {
-		this.xMag = xVel;
+		this.xMag = xVel;	//sets the directional magnitudes as decimals of the speed
 		this.yMag = yVel;
 	}
 	
+	public void add(PassiveEffect e) {
+		effects.put(e.toString(), e);
+	}
+	
 	public void update(int time) {
-		//************************Calculate New Position********************************************
+		speed = baseSpeed;
+		
+		//*****************************************PassiveEffects**********************************
+		List<PassiveEffect> currentEffects = new ArrayList<PassiveEffect>(effects.values());
+		for(int i=0; i<currentEffects.size(); i++) {
+			currentEffects.get(i).update();
+		}
+		
+		for(int i=0; i<currentEffects.size(); i++) {
+			if(currentEffects.get(i).isDone()) {
+				effects.remove(currentEffects.get(i).toString());
+			}
+		}
+		
+		//*****************************************Movement*****************************************
+		//Calculate New Position
 		double dTime = time;
 		double newX=x+(dTime*xMag*speed), newY=y+(dTime*yMag*speed);
 		
-		//************************Boundary Collision Checks******************************************
+		//Boundary Collision Checks
 		if(m.inBounds((int)newX,(int)newY,width,height)) {
 			x = newX;
 			y = newY;
@@ -70,7 +98,7 @@ public abstract class Entity {
 			yCol = true;
 		}
 		
-		//***********************Set position for drawing****************************************
+		//Set position for drawing
 		pos.x = (int) x;
 		pos.y = (int) y;
 	}
@@ -82,15 +110,27 @@ public abstract class Entity {
 	public void drawOn(LightImage i) {
 		image.drawOn(i, pos.x+i.width/2-m.xOff-image.width/2, pos.y+i.height/2-m.yOff-image.height/2);
 	}
-	
+	//***********************Health****************************************
 	public void damage(int damage) {
 		health -= damage;
+	}
+	
+	public void heal(int healing) {
+		if(health+healing > maxHealth)
+			health = maxHealth;
+		else
+			health += healing;
+	}
+	
+	public void setMaxHealth(int maxHealth) {
+		this.maxHealth = maxHealth;
 	}
 	
 	public boolean isDead() {
 		return health <= 0;
 	}
 	
+	//**********************************************************************
 	public double distTo(Point dest) {
 		double xDiff = dest.x-x;
 		double yDiff = dest.y-y;

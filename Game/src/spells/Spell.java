@@ -1,15 +1,15 @@
-package player;
+package spells;
 
 import entitystuff.PlayerCharacter;
-import game.Map;
+import game.GameMap;
 
 public class Spell {
-	Map m;
+	GameMap m;
 	PlayerCharacter p;
 	long coolDown =0;
 	long lastCast;
 	
-	public Spell(Map m, PlayerCharacter pC, int level, long coolDown) {
+	public Spell(GameMap m, PlayerCharacter pC, int level, long coolDown) {
 		this.m = m;
 		p = pC;
 		this.coolDown = coolDown;

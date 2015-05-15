@@ -1,11 +1,11 @@
-package testers;
+package runner;
 
 import entitystuff.Entity;
 import entitystuff.Character;
 import entitystuff.PlayerCharacter;
 import game.Game;
 import game.LightImage;
-import game.Map;
+import game.GameMap;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -92,7 +92,7 @@ public class Tester {
 	public static void LightImageTest() {
 		PicturePanel p = getPicturePanel("LightImageTest");
 		
-		Map m = new DefaultMap();
+		GameMap m = new DefaultMap();
 		LightImage i = new LightImage(new Dimension(500,500));
 		m.drawOn(i);
 		
@@ -109,8 +109,8 @@ public class Tester {
 	public static void JavaImageTest() {
 		PicturePanel p = getPicturePanel("JavaImageTest");
 		
-		Map m = new DefaultMap();
-		Image i = new BufferedImage(m.getWidth()*Map.RES,m.getHeight()*Map.RES,BufferedImage.TYPE_3BYTE_BGR);
+		GameMap m = new DefaultMap();
+		Image i = new BufferedImage(m.getWidth()*GameMap.RES,m.getHeight()*GameMap.RES,BufferedImage.TYPE_3BYTE_BGR);
 		Graphics g = i.getGraphics();
 		g.drawImage(m.toImage(), 0, 0, null);
 		
@@ -126,7 +126,7 @@ public class Tester {
 	public static void WalkingInPlaceTest() {
 		PicturePanel p = getPicturePanel("WalkingInPlaceTest");
 		
-		Map m = new DefaultMap();
+		GameMap m = new DefaultMap();
 		Character gC = new PlayerCharacter(m,0,0);
 		
 		for(int i=0; i<1000; i++){
@@ -156,7 +156,7 @@ public class Tester {
 	}
 	
 	public static void DefaultMapTest() {
-		Map m = new DefaultMap();
+		GameMap m = new DefaultMap();
 		
 		displayImage(m.toImage());
 	}

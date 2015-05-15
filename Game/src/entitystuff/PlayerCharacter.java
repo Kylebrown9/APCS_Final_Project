@@ -1,7 +1,7 @@
 package entitystuff;
 
 import game.LightImage;
-import game.Map;
+import game.GameMap;
 
 public class PlayerCharacter extends Character {
 
@@ -10,7 +10,7 @@ public class PlayerCharacter extends Character {
 	int targetX, targetY;
 	
 	
-	public PlayerCharacter(Map m, int x, int y) {
+	public PlayerCharacter(GameMap m, int x, int y) {
 //		super(m, "/Resources/playerPNG.png",x,y);
 		super(m, "/Resources/player.png",x,y);
 		targetX = x;

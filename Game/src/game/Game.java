@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import maps.Dungeon;
-import player.Player;
 import updaters.Updatable;
 import entitystuff.Entity;
 import entitystuff.PlayerCharacter;
@@ -16,7 +15,7 @@ import entitystuff.PlayerCharacter;
 public class Game implements Updatable {
 	public static final int interval = 1;
 	
-	Map map;
+	GameMap map;
 	public PlayerCharacter p;
 	Player player;
 	List<Entity> entities;
@@ -26,36 +25,40 @@ public class Game implements Updatable {
 	Dimension windowDim;
 	
 	boolean casting;
+	int spellID;
 	
 	public Game() {
 		map = new Dungeon();
-		
-		p = map.p;
-		
-		player = new Player();
-		player.setPC(p);
-		
+		player = new Player(map.p);
 		entities = map.entities;
-		
-		entities.add(p);
-//		p.setMag(1, 0);
+	}
+	
+	public void setMap(GameMap m) {
+		map = m;
+		player.setPC(map.p);
+		entities = map.entities;
 	}
 	
 	public void input(int x, int y) {
-		if(!casting)
-			p.setTargetRelative(x-windowDim.width/2,y-windowDim.height/2);
-		else {
-			p.setTargetRelative(0,0);
-			player.cast(0, x-windowDim.width/2,y-windowDim.height/2);
-			casting = false;
-		}
-		
-		update();
+		player.input(x-windowDim.width/2,y-windowDim.height/2);
 	}
 	
 	public void input(KeyEvent ke) {
-		if(ke.getKeyCode() == KeyEvent.VK_Q)
-			casting = !casting;
+		int val = 10;
+		switch(ke.getKeyCode()) {
+		case KeyEvent.VK_Q: val=0;
+			break;
+		case KeyEvent.VK_W: val=1;
+			break;
+		case KeyEvent.VK_E: val=2;
+			break;
+		case KeyEvent.VK_R: val=3;
+			break;
+		default:
+		}
+		player.startCast(val);
+		
+		casting = true;
 	}
 	
 	public void drawOn(LightImage image) {

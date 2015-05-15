@@ -1,10 +1,10 @@
 package maps;
 
-import game.Map;
+import game.GameMap;
 
 import java.awt.Rectangle;
 
-public class DefaultMap extends Map {
+public class DefaultMap extends GameMap {
 	public DefaultMap() {
 		super(50, 50);
 		
@@ -33,7 +33,7 @@ public class DefaultMap extends Map {
 		//steps
 		this.setRect(5, 9+cXOff, 2+cYOff, 2, 4);
 		
-		int res = Map.RES;
+		int res = GameMap.RES;
 		this.boundaries.add(new Rectangle(2*res,4*res,16*res,18*res));
 	}
 

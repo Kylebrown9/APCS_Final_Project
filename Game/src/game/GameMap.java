@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 import entitystuff.Entity;
 import entitystuff.PlayerCharacter;
 
-public class Map {
+public class GameMap {
 	public static final int RES = 25;
 	
 	protected int[][] map;
@@ -31,7 +31,7 @@ public class Map {
 	protected PlayerCharacter p;
 	
 	
-	public Map(int width, int height) {
+	public GameMap(int width, int height) {
 		this.width = width;
 		this.height = height;
 		
@@ -60,6 +60,8 @@ public class Map {
 			
 			lightTiles[i] = new LightImage(tiles[i]);
 		}
+		
+		entities.add(p);
 	}
 	
 	public void addRect(int type, Rectangle r) {

@@ -1,6 +1,6 @@
 package entitystuff;
 
-import game.Map;
+import game.GameMap;
 
 import java.awt.Point;
 
@@ -17,7 +17,7 @@ public class PatrolEnemy extends Character {
 	
 	int destID;
 	
-	public PatrolEnemy(Map m, int x, int y, Entity player, Point patrol1, Point patrol2) {
+	public PatrolEnemy(GameMap m, int x, int y, Entity player, Point patrol1, Point patrol2) {
 		super(m, "/Resources/enemy.png", x, y);
 		this.player = player;
 		p1 = patrol1;
