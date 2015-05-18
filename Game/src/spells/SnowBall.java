@@ -21,9 +21,11 @@ public class SnowBall extends Entity {
 		
 		image = sBall;
 		
-		speed = 3;
+		baseSpeed = 2;
 		
 		type = Entity.TYPE_NOCOLLISION;
+		
+		showHealth = false;
 	}
 
 	public void update(int time) {

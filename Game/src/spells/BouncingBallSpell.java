@@ -7,13 +7,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class LightningSpell extends Spell {
-	
+public class BouncingBallSpell extends Spell {
+
 	LightImage image;
 	
-	public LightningSpell(Player p, int level) {
+	public BouncingBallSpell(Player p, int level) {
 		super(p.pC.m, p, level, 1000, 10);
-	
+		
 		try {
 			image = new LightImage(ImageIO.read(this.getClass().getResource("/Resources/" + "fireball.png")));
 		} catch (IOException e) {
@@ -22,6 +22,6 @@ public class LightningSpell extends Spell {
 	}
 
 	public void doSpellAction(int x, int y) {
-		m.entities.add(new FireBall(m,image,p.getPos().x,p.getPos().y,p.getPos().x+x,p.getPos().y+y));
+		m.entities.add(new BouncingBall(m,image,p.getPos().x,p.getPos().y,p.getPos().x+x,p.getPos().y+y));
 	}
 }

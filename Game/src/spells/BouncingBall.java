@@ -1,10 +1,10 @@
 package spells;
 
 import entitystuff.Entity;
-import game.LightImage;
 import game.GameMap;
+import game.LightImage;
 
-public class FireBall extends Entity {
+public class BouncingBall extends Entity {
 
 	public static final int DAMAGE = 5;
 
@@ -12,8 +12,9 @@ public class FireBall extends Entity {
 	public static final int BLAST_RADIUS  = 20;
 	
 	int targetX, targetY;
+	int count=0;
 	
-	public FireBall(GameMap m, LightImage fball, int x, int y, int targetX, int targetY) {
+	public BouncingBall(GameMap m, LightImage fball, int x, int y, int targetX, int targetY) {
 		super(m, x, y);
 		
 		double xDiff = targetX-x;
@@ -25,7 +26,7 @@ public class FireBall extends Entity {
 		
 		image = fball;
 		
-		baseSpeed = 3;
+		baseSpeed = 5;
 		
 		type = Entity.TYPE_NOCOLLISION;
 		
@@ -36,23 +37,17 @@ public class FireBall extends Entity {
 		super.update(time);
 		Entity entity;
 		
-		if(xCollision() || yCollision()) {
-			this.health = 0;
-			return;
+		if(xCollision() && yCollision()) {
+			xMag *= -1;
+			yMag *= -1;
+			count++;
+		} else if (xCollision()) {
+			xMag *= -1;
+			count++;
+		} else if (yCollision()) {
+			yMag *= -1;
+			count++;
 		}
-		
-		boolean firing=false;
-		
-		for(int i=0; i<m.entities.size(); i++) {
-			entity = m.entities.get(i);
-			if(distTo(entity.getPos()) < TRIGGER_RANGE && entity.type == Entity.TYPE_ENEMY)
-				firing = true;
-		}
-		
-		if(!firing)
-			return;
-		
-		this.health = 0;
 		
 		for(int i=0; i<m.entities.size(); i++) {
 			entity = m.entities.get(i);
@@ -60,5 +55,8 @@ public class FireBall extends Entity {
 			if(distTo(entity.getPos()) < BLAST_RADIUS && entity.type == Entity.TYPE_ENEMY)
 				entity.damage(DAMAGE);
 		}
+		
+		if(count == 8)
+			this.health = 0;
 	}
 }

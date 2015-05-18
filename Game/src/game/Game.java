@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import maps.Dungeon;
 import updaters.Updatable;
 import entitystuff.Entity;
 import entitystuff.PlayerCharacter;
@@ -27,9 +26,10 @@ public class Game implements Updatable {
 	boolean casting;
 	int spellID;
 	
-	public Game() {
-		map = new Dungeon();
-		player = new Player(map.p);
+	public Game(Player player) {
+		map = new GameMap(LightImage.imageAtPath("/Resources/dungeon1.png"));
+		this.player = player;
+		player.setPC(map.p);
 		entities = map.entities;
 	}
 	
@@ -70,11 +70,12 @@ public class Game implements Updatable {
 	
 	public void update() {
 		//************************Set Offsets*************************************
-		map.pXOff = p.image.width/2;
-		map.pYOff = p.image.height/2;
-		map.xOff = p.getX();
-		map.yOff = p.getY();
+		map.pXOff = map.p.image.width/2;
+		map.pYOff = map.p.image.height/2;
+		map.xOff = map.p.getX();
+		map.yOff = map.p.getY();
 		
+		player.giveXP(map.getXP());
 		//*************************Remove Dead*************************************
 		List<Entity> deadEntities = new ArrayList<Entity>();
 		

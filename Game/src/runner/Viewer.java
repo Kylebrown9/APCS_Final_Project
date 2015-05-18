@@ -32,20 +32,27 @@ public class Viewer extends JPanel implements MouseListener, KeyListener, Compon
 	
 	PauseButtonLayer pauseLayer;
 
-	public Viewer(Dimension dim) {
+	public Viewer(Dimension dim, int characterID) {
 		this.dim = dim;
+		this.p = new Player();
 		
 		layers = new ArrayList<Layer>();
-		g = new Game();
+		g = new Game(this.p);
 	   
-		PausableUpdater p = new PausableUpdater(g,this);
-	   
+		List<Updatable> updating = new ArrayList<Updatable>();
+		updating.add(g);
+		updating.add(this);
+		updating.add(this.p);
+		PausableUpdater p = new PausableUpdater(updating);
+		
+		
 		pauseLayer = new PauseButtonLayer(p);
 		GameLayer gameLayer = new GameLayer(g);
 	   
 		pauseLayer.setDim(dim);
 		g.setDim(dim);
 		
+		layers.add(new HUDLayer(this.p));
 		layers.add(pauseLayer);
 		layers.add(gameLayer);
 	}

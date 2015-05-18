@@ -1,18 +1,18 @@
 package spells;
 
+import game.LightImage;
+import game.Player;
+
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-
-import entitystuff.PlayerCharacter;
-import game.LightImage;
 
 public class FireBallSpell extends Spell {
 
 	LightImage image;
 	
-	public FireBallSpell(PlayerCharacter pC, int level) {
-		super(pC.m, pC, level, 1000);
+	public FireBallSpell(Player p, int level) {
+		super(p.pC.m, p, level, 1000, 10);
 		
 		try {
 			image = new LightImage(ImageIO.read(this.getClass().getResource("/Resources/" + "fireball.png")));

@@ -4,14 +4,10 @@ import game.LightImage;
 import game.GameMap;
 
 public class PlayerCharacter extends Character {
-
-	public static final int CLOSE_ENOUGH  = 1;
 	
 	int targetX, targetY;
 	
-	
 	public PlayerCharacter(GameMap m, int x, int y) {
-//		super(m, "/Resources/playerPNG.png",x,y);
 		super(m, "/Resources/player.png",x,y);
 		targetX = x;
 		targetY = y;
@@ -20,6 +16,10 @@ public class PlayerCharacter extends Character {
 		height = 50;
 		
 		type = Entity.TYPE_PLAYER;
+		
+		baseSpeed = 2;
+		
+		showHealth = false;
 	}
 	
 	public void setTarget(int x, int y) {
@@ -40,7 +40,7 @@ public class PlayerCharacter extends Character {
 		
 		double dist =  Math.sqrt(xDiff*xDiff + yDiff*yDiff);
 		
-		if(dist < CLOSE_ENOUGH)
+		if(dist < speed)
 			this.setMag(0, 0);
 		else {
 			this.setMag(xDiff/dist, yDiff/dist);
@@ -49,5 +49,9 @@ public class PlayerCharacter extends Character {
 	
 	public void drawOn(LightImage i) {
 		image.drawOn(i, i.width/2-image.width/2, i.height/2-image.height/2);
+	}
+	
+	public void modifyBaseSpeed(double percent) {
+		baseSpeed = BASE_SPEED*(1+percent);
 	}
 }

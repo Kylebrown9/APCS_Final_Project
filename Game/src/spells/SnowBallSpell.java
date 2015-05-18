@@ -1,7 +1,7 @@
 package spells;
 
-import entitystuff.PlayerCharacter;
 import game.LightImage;
+import game.Player;
 
 import java.io.IOException;
 
@@ -10,8 +10,8 @@ import javax.imageio.ImageIO;
 public class SnowBallSpell extends Spell {
 LightImage image;
 	
-	public SnowBallSpell(PlayerCharacter pC, int level) {
-		super(pC.m, pC, level, 1000);
+	public SnowBallSpell(Player p, int level) {
+		super(p.pC.m, p, level, 1000, 10);
 		
 		try {
 			image = new LightImage(ImageIO.read(this.getClass().getResource("/Resources/" + "snowball.png")));

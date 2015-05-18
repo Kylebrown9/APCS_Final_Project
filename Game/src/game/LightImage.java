@@ -5,6 +5,11 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.imageio.ImageIO;
 
 public class LightImage {
 	private BufferedImage image;
@@ -36,6 +41,15 @@ public class LightImage {
 		pixelsI = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 	}
 
+	public static LightImage imageAtPath(String path) {
+		BufferedImage i=null;
+		try {
+			i = ImageIO.read(LightImage.class.getClass().getResource(path));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return new LightImage(i);
+	}
 	
 	public void drawOn(LightImage i, int xS, int yS) {
 		int color;
@@ -73,6 +87,12 @@ public class LightImage {
 		}
 	}
 	
+	public void fillRect(int x, int y, int width, int height, int color) {
+		for		(int i=(x<0?0:x); i<(x+width) && i<this.width;  i++)
+			for	(int j=(y<0?0:y); j<(y+height)&& j<this.height; j++)
+				setColor(i,j,color);
+	}
+	
 	public LightImage subImage(int x, int y, int width, int height) {
 		BufferedImage i = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
 		
@@ -89,6 +109,17 @@ public class LightImage {
 	
 	public void setColor(int x, int y, int color) {
 		pixelsI[y*width+x] = color;
+	}
+	
+	public List<Point> getPointsWithColor(int color) {
+		List<Point> output = new ArrayList<Point>();
+		
+		for(int x=0; x<width; x++)
+			for(int y=0; y<height; y++)
+				if(getColor(x,y) == color)
+					output.add(new Point(x,y));
+		
+		return output;
 	}
 	
 	public BufferedImage getImage() {

@@ -18,6 +18,7 @@ public abstract class Entity {
 	public static final int TYPE_NOCOLLISION  = 0;
 	public static final int TYPE_PLAYER  = 1;
 	public static final int TYPE_ENEMY  = 2;
+	public static final double BASE_SPEED = 1;
 	
 	public GameMap m;
 	
@@ -41,6 +42,7 @@ public abstract class Entity {
 	List<Entity> entities;
 	public int health=10, maxHealth=10;
 	public int type = 0;
+	protected boolean showHealth=true;
 	
 	public Entity(GameMap m, int x, int y) {
 		this.m = m;
@@ -108,7 +110,16 @@ public abstract class Entity {
 	}
 	
 	public void drawOn(LightImage i) {
-		image.drawOn(i, pos.x+i.width/2-m.xOff-image.width/2, pos.y+i.height/2-m.yOff-image.height/2);
+		int topLX=pos.x+i.width/2-m.xOff-image.width/2, 
+				topLY=pos.y+i.height/2-m.yOff-image.height/2;
+		
+		if(showHealth) {
+			int hBW=20, hBH=5;
+			i.fillRect(topLX+image.width/2-hBW/2, (int)topLY+50+hBH, hBW, hBH, 16711680);
+			i.fillRect(topLX+image.width/2-hBW/2, (int)topLY+50+hBH, (int)(hBW*((double)health/(double)maxHealth)), hBH, 65280);
+		}
+			
+		image.drawOn(i, topLX, topLY);
 	}
 	//***********************Health****************************************
 	public void damage(int damage) {
