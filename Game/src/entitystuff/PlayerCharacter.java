@@ -8,7 +8,7 @@ public class PlayerCharacter extends Character {
 	int targetX, targetY;
 	
 	public PlayerCharacter(GameMap m, int x, int y) {
-		super(m, "/Resources/player.png",x,y);
+		super(m, "/Resources/Male_HBlond_WSpear.png",x,y);
 		targetX = x;
 		targetY = y;
 		
