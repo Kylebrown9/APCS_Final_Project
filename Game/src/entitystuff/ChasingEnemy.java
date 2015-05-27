@@ -15,7 +15,7 @@ public class ChasingEnemy extends Character {
 	int counter=0, interval=10;
 	
 	public ChasingEnemy(GameMap m, int x, int y, Entity player) {
-		super(m, "/Resources/enemy.png", x, y);
+		super(m, "enemy.png", x, y);
 		this.player = player;
 		this.gaurdPos = new Point(x,y);
 		

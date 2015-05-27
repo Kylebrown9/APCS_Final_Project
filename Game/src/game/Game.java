@@ -2,11 +2,14 @@ package game;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+import runner.GameOverLayer;
+import runner.GameWonLayer;
 import updaters.Updatable;
 import entitystuff.Entity;
 import entitystuff.PlayerCharacter;
@@ -26,11 +29,16 @@ public class Game implements Updatable {
 	boolean casting;
 	int spellID;
 	
-	public Game(Player player) {
-		map = new GameMap(LightImage.imageAtPath("/Resources/dungeon1.png"));
+	GameOverLayer gameOver;
+	GameWonLayer gameWon;
+	
+	public Game(Player player, int pType, GameOverLayer gO, GameWonLayer gW) {
+		map = new GameMap(new LightImage("dungeon1.png"),pType);
 		this.player = player;
 		player.setPC(map.p);
 		entities = map.entities;
+		gameOver = gO;
+		gameWon = gW;
 	}
 	
 	public void setMap(GameMap m) {
@@ -53,6 +61,10 @@ public class Game implements Updatable {
 		case KeyEvent.VK_E: val=2;
 			break;
 		case KeyEvent.VK_R: val=3;
+			break;
+		case KeyEvent.VK_T: val=4;
+			break;
+		case KeyEvent.VK_Y: val=5;
 			break;
 		default:
 		}
@@ -89,6 +101,16 @@ public class Game implements Updatable {
 		//**************************Update Remaining*******************************
 		for(int i=0; i<entities.size(); i++)
 				entities.get(i).update(interval);
+		
+		if(player.pC.isDead())
+			gameOver.active = true;
+		Point p = player.pC.getPos();
+		Point p1 = new Point(p.x/25,p.y/25);
+		if(map.hasWon(p1)) {
+			gameWon.active = true;
+			player.pC.damageable = false;
+		}
+			
 	}
 	
 	public void setDim(Dimension dim) {

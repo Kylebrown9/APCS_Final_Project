@@ -31,13 +31,19 @@ public class Viewer extends JPanel implements MouseListener, KeyListener, Compon
 	Game g;
 	
 	PauseButtonLayer pauseLayer;
+	SkillTreeLayer sTree;
+	
+	GameOverLayer gameOver;
+	GameWonLayer gameWon;
 
-	public Viewer(Dimension dim, int characterID) {
+	public Viewer(Dimension dim, int pType) {
 		this.dim = dim;
 		this.p = new Player();
 		
+		gameWon = new GameWonLayer();
+		gameOver = new GameOverLayer();
 		layers = new ArrayList<Layer>();
-		g = new Game(this.p);
+		g = new Game(this.p,pType,gameOver,gameWon);
 	   
 		List<Updatable> updating = new ArrayList<Updatable>();
 		updating.add(g);
@@ -52,6 +58,13 @@ public class Viewer extends JPanel implements MouseListener, KeyListener, Compon
 		pauseLayer.setDim(dim);
 		g.setDim(dim);
 		
+		sTree = new SkillTreeLayer(this.p);
+		sTree.setDim(dim);
+		sTree.active = false;
+		
+		layers.add(gameWon);
+		layers.add(gameOver);
+		layers.add(sTree);
 		layers.add(new HUDLayer(this.p));
 		layers.add(pauseLayer);
 		layers.add(gameLayer);
@@ -75,14 +88,13 @@ public class Viewer extends JPanel implements MouseListener, KeyListener, Compon
 				return;
 			}
 		}
-		
 		repaint();
 	}
 	
 	@Override
 	public void keyPressed(KeyEvent arg0) {	
 		for(int i=0; i<layers.size(); i++) {
-			if(layers.get(i).acceptsKeys() && layers.get(i).active) {
+			if(layers.get(i).acceptsKey(arg0)) {
 				layers.get(i).input(arg0);
 				return;
 			}
@@ -97,6 +109,7 @@ public class Viewer extends JPanel implements MouseListener, KeyListener, Compon
 		
 		pauseLayer.setDim(dim);
 		g.setDim(dim);
+		sTree.setDim(dim);
 	}
 	
 	@Override

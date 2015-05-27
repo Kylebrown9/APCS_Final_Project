@@ -16,7 +16,7 @@ public class GameLayer extends Layer {
 		return true;
 	}
 	
-	public boolean acceptsKeys() {
+	public boolean acceptsKey(KeyEvent ke) {
 		return true;
 	}
 

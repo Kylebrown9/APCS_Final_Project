@@ -1,26 +1,16 @@
 package runner;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 import game.LightImage;
+
+import java.awt.event.KeyEvent;
 
 public class GameOverLayer extends Layer {
 
 	LightImage image;
 	
 	public GameOverLayer() {
-		BufferedImage i = null;
-		
-		try {
-			i = ImageIO.read(this.getClass().getResource("/Resources/pauseButton.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		image = new LightImage(i);
+		image = new LightImage("gameOver.png");
+		active = false;
 	}
 	
 	@Override
@@ -34,14 +24,13 @@ public class GameOverLayer extends Layer {
 	}
 
 	@Override
-	public boolean acceptsKeys() {
+	public boolean acceptsKey(KeyEvent ke) {
 		return false;
 	}
 
 	@Override
-	public void input(int x, int y) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void input(int x, int y) {}
 
+	@Override
+	public void input(KeyEvent ke) {}
 }

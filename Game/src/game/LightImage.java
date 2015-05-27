@@ -40,16 +40,39 @@ public class LightImage {
 		
 		pixelsI = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 	}
-
-	public static LightImage imageAtPath(String path) {
+	
+	public LightImage(String path) {
 		BufferedImage i=null;
 		try {
-			i = ImageIO.read(LightImage.class.getClass().getResource(path));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return new LightImage(i);
+//			File f = new File(".");
+//			File f2 = f.getParentFile();
+//			File f3 = new File(f2,"Resources/"+path);
+//			i = ImageIO.read(getClass().getResource(f3.getPath()));
+			i = ImageIO.read(getClass().getResource("/Resources/"+path));
+		} catch (IOException e) {e.printStackTrace();}
+		
+		width = i.getWidth();
+		height = i.getHeight();
+		
+		image = new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
+		
+		Graphics g = image.getGraphics();
+		g.drawImage(i, 0, 0, null);
+		g.dispose();
+		g = null;
+		
+		pixelsI = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
 	}
+
+//	public static LightImage imageAtPath(String path) {
+//		BufferedImage i=null;
+//		try {
+//			i = ImageIO.read(LightImage.class.getResource(path));
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return new LightImage(i);
+//	}
 	
 	public void drawOn(LightImage i, int xS, int yS) {
 		int color;
@@ -76,7 +99,7 @@ public class LightImage {
 	}
 	
 	public void drawOnCentered(LightImage i) {
-		drawOn(i,(i.width-this.width)/2,(i.height-this.height/2));
+		drawOn(i,(i.width-this.width)/2,(i.height-this.height)/2);
 	}
 	
 	public void drawLineOn(Point p1, Point p2) {

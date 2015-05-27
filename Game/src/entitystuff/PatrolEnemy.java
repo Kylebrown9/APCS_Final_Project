@@ -18,7 +18,7 @@ public class PatrolEnemy extends Character {
 	int destID;
 	
 	public PatrolEnemy(GameMap m, int x, int y, Entity player, Point patrol1, Point patrol2) {
-		super(m, "/Resources/enemy.png", x, y);
+		super(m, "enemy.png", x, y);
 		this.player = player;
 		p1 = patrol1;
 		p2 = patrol2;

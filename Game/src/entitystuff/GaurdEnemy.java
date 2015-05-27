@@ -13,7 +13,7 @@ public class GaurdEnemy extends Character {
 	Point gaurdPos, target;
 	
 	public GaurdEnemy(GameMap m, int x, int y, Entity player) {
-		super(m, "/Resources/enemy.png", x, y);
+		super(m, "enemy.png", x, y);
 		this.player = player;
 		this.gaurdPos = new Point(x,y);
 		

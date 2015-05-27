@@ -22,16 +22,14 @@ public class GameMap {
 	
 	protected int[][] map;
 	
-	private BufferedImage[] tiles;
-	private LightImage[] lightTiles;
+	private LightImage[] tiles;
 	
-	public int xOff=0, yOff=0;
-	public int pXOff=0, pYOff=0;
+	public int xOff=0, yOff=0, pXOff=0, pYOff=0;
 	
 	public List<Entity> entities = new ArrayList<Entity>();
-	protected PlayerCharacter p;
+	public PlayerCharacter p;
 	
-	List<Point> backgroundTiles = new ArrayList<Point>();
+	public List<Point> backgroundTiles = new ArrayList<Point>();
 	List<Point> playerSpawnTiles = new ArrayList<Point>();
 	List<Point> enemySpawnTiles = new ArrayList<Point>();
 	List<Point> victoryAreaTiles = new ArrayList<Point>();
@@ -40,7 +38,7 @@ public class GameMap {
 	
 	int xP=0;
 	
-	public GameMap(LightImage source) {
+	public GameMap(LightImage source,int pType) {
 		this.bitMap = source;
 		
 		map = new int[bitMap.width][bitMap.height];
@@ -68,7 +66,7 @@ public class GameMap {
 		if(playerSpawnTiles.size() != 1)
 			System.err.println("Incorrect number of player spawns designated");
 		
-		p = new PlayerCharacter(this,playerSpawnTiles.get(0).x*RES,playerSpawnTiles.get(0).y*RES);
+		p = new PlayerCharacter(this,pType,playerSpawnTiles.get(0).x*RES,playerSpawnTiles.get(0).y*RES);
 		entities.add(p);
 		
 		for(int i=0; i<enemySpawnTiles.size(); i++) {
@@ -85,17 +83,10 @@ public class GameMap {
 				"step0B.jpg"
 		};
 		
-		tiles = new BufferedImage[pathsJPG.length];
-		lightTiles = new LightImage[tiles.length];
+		tiles = new LightImage[pathsJPG.length];
 		
 		for(int i=0; i<pathsJPG.length; i++) {
-			try {
-				tiles[i] = ImageIO.read(this.getClass().getResource("/Resources/" + pathsJPG[i]));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			lightTiles[i] = new LightImage(tiles[i]);
+			tiles[i] = new LightImage(pathsJPG[i]);
 		}
 	}
 	
@@ -126,6 +117,6 @@ public class GameMap {
 	public void drawOn(LightImage i) {
 		for(int x=0; x<bitMap.width; x++)
 			for(int y=0; y<bitMap.height; y++)
-				lightTiles[map[x][y]].drawOn(i, x*RES+i.width/2-xOff, y*RES+i.height/2-yOff);
+				tiles[map[x][y]].drawOn(i, x*RES+i.width/2-xOff, y*RES+i.height/2-yOff);
 	}
 }

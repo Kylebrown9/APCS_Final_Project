@@ -10,8 +10,8 @@ public abstract class Layer {
 	   public abstract void drawOn(LightImage i);
 	   
 	   public abstract boolean inLayer(int x, int y);
-	   public abstract boolean acceptsKeys();
+	   public abstract boolean acceptsKey(KeyEvent ke);
 	   
 	   public abstract void input(int x, int y);
-	   public void input(KeyEvent ke) {}
+	   public abstract void input(KeyEvent ke);
 }

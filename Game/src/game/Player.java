@@ -1,11 +1,7 @@
 package game;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import spells.BouncingBallSpell;
-import spells.FireBallSpell;
-import spells.SnowBallSpell;
+import spells.MagicBoltSpell;
+import spells.NoSpell;
 import spells.Spell;
 import updaters.Updatable;
 import entitystuff.PlayerCharacter;
@@ -15,15 +11,15 @@ public class Player implements Updatable {
 	public static final double BASEHEALTH = 100;
 	
 	public PlayerCharacter pC;
-	Spell[] skills;
+	public Spell[] skills;
 	
 	boolean casting;
 	int spellID = NOSPELL;
-	public int mana=100, baseMana=100, maxMana=100, manaRate=80, count=0;
+	public int mana=100, baseMana=100, maxMana=100, manaRate=40, count=0;
+	public int sightRange = 1000;
 	
-	int xP=0, xPNeeded, level=1, skillPoints=1;
-	
-	List<Attribute> attributes = new ArrayList<Attribute>();
+	int xP=0, xPNeeded;
+	public int level=1, skillPoints=1;
 	
 	public Player() {
 		casting = false;
@@ -32,36 +28,16 @@ public class Player implements Updatable {
 		xPNeeded = xPNeededForLvl(2);
 	}
 	
-	public void applyAttributes() {
-		double healthMod=1, speedMod=1, manaMod=1;
-		
-		for(Attribute a : attributes){
-			switch(a.getEffectType()){
-				case "health":
-					healthMod	+= a.getEffectAmount();
-					break;
-				case "speed":
-					speedMod	+= a.getEffectAmount();
-					break;
-				case "mana":
-					manaMod	+= a.getEffectAmount();
-					break;
-			}
-		}
-		
-		maxMana = (int)((double)(baseMana)*(1+manaMod));
-		pC.modifyBaseSpeed(speedMod);
-		pC.setMaxHealth((int)(BASEHEALTH*healthMod));
-	}
-	
 	public void setPC(PlayerCharacter pC) {
 		this.pC = pC;
 		
 		Spell[] skillset = {
-				new FireBallSpell(this,1),
-				new SnowBallSpell(this,1),
-				new BouncingBallSpell(this,1),
-				new FireBallSpell(this,1)
+				new MagicBoltSpell(this,1),
+				new NoSpell(pC.m,this),
+				new NoSpell(pC.m,this),
+				new NoSpell(pC.m,this),
+				new NoSpell(pC.m,this),
+				new NoSpell(pC.m,this)
 		};
 		
 		skills = skillset;
@@ -102,7 +78,7 @@ public class Player implements Updatable {
 	}
 	
 	public int xPNeededForLvl(int level) {
-		return (int)Math.pow(10, level+1);
+		return 100*(level+1)*(level+1);
 	}
 	
 	public int getXP() 			{return xP;}

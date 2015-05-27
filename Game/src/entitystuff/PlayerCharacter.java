@@ -6,9 +6,10 @@ import game.GameMap;
 public class PlayerCharacter extends Character {
 	
 	int targetX, targetY;
+	public boolean damageable = true;
 	
-	public PlayerCharacter(GameMap m, int x, int y) {
-		super(m, "/Resources/Male_HBlond_WSpear.png",x,y);
+	public PlayerCharacter(GameMap m,int pType, int x, int y) {
+		super(m, getPath(pType),x,y);
 		targetX = x;
 		targetY = y;
 		
@@ -53,5 +54,15 @@ public class PlayerCharacter extends Character {
 	
 	public void modifyBaseSpeed(double percent) {
 		baseSpeed = BASE_SPEED*(1+percent);
+	}
+	
+	public void damage(int damage) {
+		if(damageable)health -= damage;
+	}
+	
+	public static String getPath(int type) {
+		String[] paths = {"Female_HBlack_WWand.png","Female_HBlue_WDagger.png",
+				"Male_HBlond_WSpear.png","Male_HWhite_WBow.png"};
+		return paths[type];
 	}
 }

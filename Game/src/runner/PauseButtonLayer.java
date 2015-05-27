@@ -3,10 +3,7 @@ package runner;
 import game.LightImage;
 
 import java.awt.Dimension;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
+import java.awt.event.KeyEvent;
 
 import updaters.PausableUpdater;
 
@@ -23,18 +20,8 @@ public class PauseButtonLayer extends Layer {
 	public PauseButtonLayer(PausableUpdater updater) {
 		this.updater = updater;
 		
-		BufferedImage pause = null;
-		BufferedImage play = null;
-		
-		try {
-			pause = ImageIO.read(this.getClass().getResource("/Resources/pauseButton.png"));
-			play = ImageIO.read(this.getClass().getResource("/Resources/playButton.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		pauseButton = new LightImage(pause);
-		playButton = new LightImage(play);
+		pauseButton = new LightImage("pauseButton.png");
+		playButton = new LightImage("playButton.png");
 	}
 	
 	@Override
@@ -42,7 +29,7 @@ public class PauseButtonLayer extends Layer {
 		return x >= windowDim.width-50 && x <= windowDim.width && y >= 0 && y <=100;
 	}
 	
-	public boolean acceptsKeys() {
+	public boolean acceptsKey(KeyEvent ke) {
 		return false;
 	}
 
@@ -62,5 +49,5 @@ public class PauseButtonLayer extends Layer {
 	public void setDim(Dimension dim) {
 		windowDim = dim;
 	}
-
+	public void input(KeyEvent ke) {}
 }
